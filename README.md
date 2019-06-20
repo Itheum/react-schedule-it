@@ -69,6 +69,6 @@ npm install --save react-schedule-it
 ```
 - require into your project via
 ```
-import StepZilla from "react-schedule-it";
+import ScheduleIt from "react-schedule-it";
 ```
 - define the list of all the components* you want to step through. The `name` indicates the title of the UI step and component is what loads.

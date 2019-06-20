@@ -1,5 +1,5 @@
 import React from 'react';
-import StepZilla from '../src/main';
+import ScheduleIt from '../src/main';
 import sinon from 'sinon'
 import { shallow } from 'enzyme';
 
@@ -47,7 +47,7 @@ function setup(stepCount = 1, config = {}, makePure = false) {
     steps: steps
   };
 
-  const enzymeWrapper = shallow(<StepZilla {...props} />);
+  const enzymeWrapper = shallow(<ScheduleIt {...props} />);
 
   return {
     props,
@@ -55,7 +55,7 @@ function setup(stepCount = 1, config = {}, makePure = false) {
   }
 }
 
-describe('StepZilla', () => {
+describe('ScheduleIt', () => {
   describe('base component render (using React.Component based Components mocking)', () => {
     const { enzymeWrapper } = setup(2);
 

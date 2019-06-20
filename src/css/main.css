@@ -1,96 +1,87 @@
-ol.progtrckr {
-  list-style-type: none;
-  padding: 0;
+.schedule-it {
+  background-color: #CCC;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 }
 
-ol.progtrckr li {
-  display: inline-block;
+.schedule-it .schedule-tabs {
+  background-color: #ddd;
+  display: flex;
+  padding: 5px;
+  justify-content: space-around;
+}
+
+.schedule-it .schedule-body {
+  background-color: #FFF;
+  padding: 10px;
+  border: solid 2px black;
+}
+
+.schedule-it .schedule-body .tab-groups {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  margin-bottom: 30px;
+}
+
+.schedule-it .schedule-body .tab-groups > div {
+  border: solid 1px black;
+  flex: 1;
   text-align: center;
-  line-height: 4.5rem;
-  cursor: pointer;
+  padding: 3px;
+  margin: 3px;
 }
 
-ol.progtrckr li span {
-  padding: 0 1.5rem;
+.schedule-it .schedule-body .days {
+  display: flex;
+  padding: 5px;
+  justify-content: space-around;
 }
 
-@media (max-width: 650px) {
-  .progtrckr li span {
-    display: none;
-  }
-}
-.progtrckr em {
-  display: none;
-  font-weight: 700;
-  padding-left: 1rem;
+.schedule-it .schedule-body .days > div {
+  border: solid 1px black;
+  flex: 1;
+  text-align: center;
+  padding: 3px;
+  margin: 3px;
 }
 
-@media (max-width: 650px) {
-  .progtrckr em {
-    display: inline;
-  }
+.schedule-it .schedule-body .am {
+  background-color: #DDD;
+  display: flex;
+  padding: 5px;
+  margin-bottom: 5px;
 }
 
-ol.progtrckr li.progtrckr-todo {
-  color: silver;
-  border-bottom: 4px solid silver;
+.schedule-it .schedule-body .am-hours {
+  flex: 2;
+  display: flex;
+  justify-content: space-between;
 }
 
-ol.progtrckr li.progtrckr-doing {
-  color: black;
-  border-bottom: 4px solid #CCCCCC;
+.schedule-it .schedule-body .am-min {
+  display: flex;
+  flex: 1;
+  justify-content: space-around;
 }
 
-ol.progtrckr li.progtrckr-done {
-  color: black;
-  border-bottom: 4px solid #5cb85c;
+.schedule-it .schedule-body .pm {
+  background-color: #DDD;
+  display: flex;
+  padding: 5px;
+  margin-bottom: 5px;
 }
 
-ol.progtrckr li:after {
-  content: "\00a0\00a0";
+.schedule-it .schedule-body .pm .pm-hours {
+  flex: 2;
+  display: flex;
+  justify-content: space-between;
 }
 
-ol.progtrckr li:before {
-  position: relative;
-  bottom: -3.7rem;
-  float: left;
-  left: 50%;
-}
-
-ol.progtrckr li.progtrckr-todo:before {
-  content: "\039F";
-  color: silver;
-  background-color: white;
-  width: 1.2em;
-  line-height: 1.4em;
-}
-
-ol.progtrckr li.progtrckr-todo:hover:before {
-  color: #ff4500;
-}
-
-ol.progtrckr li.progtrckr-doing:before {
-  content: "\2022";
-  color: white;
-  background-color: #CCCCCC;
-  width: 1.2em;
-  line-height: 1.2em;
-  border-radius: 1.2em;
-}
-
-ol.progtrckr li.progtrckr-doing:hover:before {
-  color: #ff4500;
-}
-
-ol.progtrckr li.progtrckr-done:before {
-  content: "\2713";
-  color: white;
-  background-color: #5cb85c;
-  width: 1.2em;
-  line-height: 1.2em;
-  border-radius: 1.2em;
-}
-
-ol.progtrckr li.progtrckr-done:hover:before {
-  color: #333;
+.schedule-it .schedule-body .pm .pm-min {
+  display: flex;
+  flex: 1;
+  justify-content: space-around;
 }

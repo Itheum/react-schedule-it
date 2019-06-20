@@ -1,6 +1,6 @@
 ## Development Workflow to Contribute
 
-Hi Contributors, here is the workflow you should follow to contribute any updates/upgrades to StepZilla.
+Hi Contributors, here is the workflow you should follow to contribute any updates/upgrades to ScheduleIt.
 
 1. Check out master branch, create your new branch that you will work on and raise a PR later
 2. Follow the [Dev steps here to run it locally](https://github.com/newbreedofgeek/react-schedule-it#run-and-view-example-in-browser) in live-update watch mode

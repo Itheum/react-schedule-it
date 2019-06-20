@@ -33,17 +33,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var StepZilla =
+var ScheduleIt =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(StepZilla, _Component);
+  _inherits(ScheduleIt, _Component);
 
-  function StepZilla(props) {
+  function ScheduleIt(props) {
     var _this;
 
-    _classCallCheck(this, StepZilla);
+    _classCallCheck(this, ScheduleIt);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(StepZilla).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ScheduleIt).call(this, props));
     _this.state = {
       compState: _this.props.startAtStep,
       navState: _this.getNavStates(_this.props.startAtStep, _this.props.steps.length)
@@ -60,7 +60,7 @@ function (_Component) {
   } // extend the "steps" array with flags to indicate if they have been validated
 
 
-  _createClass(StepZilla, [{
+  _createClass(ScheduleIt, [{
     key: "applyValidationFlagsToSteps",
     value: function applyValidationFlagsToSteps() {
       var _this2 = this;
@@ -299,7 +299,7 @@ function (_Component) {
           // we are moving backwards in steps, in this case dont validate as it means the user is not commiting to "save"
           proceed = true;
         } else if (this.isStepAtIndexHOCValidationBased(this.state.compState)) {
-          // the user is using a higer order component (HOC) for validation (e.g react-validation-mixin), this wraps the StepZilla steps as a HOC,
+          // the user is using a higer order component (HOC) for validation (e.g react-validation-mixin), this wraps the ScheduleIt steps as a HOC,
           // so use hocValidationAppliedTo to determine if this step needs the aync validation as per react-validation-mixin interface
           proceed = this.refs.activeComponent.refs.component.isValidated();
         } else if (Object.keys(this.refs).length === 0 || typeof this.refs.activeComponent.isValidated === 'undefined') {
@@ -352,7 +352,7 @@ function (_Component) {
           value: i
         }, _react.default.createElement("em", null, i + 1), _react.default.createElement("span", null, _this5.props.steps[i].name));
       });
-    } // main render of stepzilla container
+    } // main render of scheduleIt container
 
   }, {
     key: "render",
@@ -411,11 +411,11 @@ function (_Component) {
     }
   }]);
 
-  return StepZilla;
+  return ScheduleIt;
 }(_react.Component);
 
-exports.default = StepZilla;
-StepZilla.defaultProps = {
+exports.default = ScheduleIt;
+ScheduleIt.defaultProps = {
   showSteps: true,
   showNavigation: true,
   stepsNavigation: true,
@@ -429,7 +429,7 @@ StepZilla.defaultProps = {
   backButtonCls: 'btn btn-next btn-primary btn-lg pull-left',
   hocValidationAppliedTo: []
 };
-StepZilla.propTypes = {
+ScheduleIt.propTypes = {
   steps: _propTypes.default.arrayOf(_propTypes.default.shape({
     name: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.object]).isRequired,
     component: _propTypes.default.element.isRequired
