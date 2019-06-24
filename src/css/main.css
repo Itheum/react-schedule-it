@@ -9,8 +9,18 @@
 .schedule-it .schedule-tabs {
   background-color: #ddd;
   display: flex;
-  padding: 5px;
   justify-content: space-around;
+}
+
+.schedule-it .schedule-tabs > div {
+  flex: 1;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.schedule-it .schedule-tabs > .sel {
+  background-color: #000;
+  color: #fff;
 }
 
 .schedule-it .schedule-body {
@@ -32,6 +42,12 @@
   text-align: center;
   padding: 3px;
   margin: 3px;
+  cursor: pointer;
+}
+
+.schedule-it .schedule-body .tab-groups > .sel {
+  background-color: #000;
+  color: #fff;
 }
 
 .schedule-it .schedule-body .days {
@@ -46,6 +62,12 @@
   text-align: center;
   padding: 3px;
   margin: 3px;
+  cursor: pointer;
+}
+
+.schedule-it .schedule-body .days > .sel {
+  background-color: #000;
+  color: #fff;
 }
 
 .schedule-it .schedule-body .am {
@@ -61,10 +83,22 @@
   justify-content: space-between;
 }
 
+.schedule-it .schedule-body .am-hours > div {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.schedule-it .schedule-body .am-hours > .sel {
+  background-color: #000;
+  color: #fff;
+}
+
 .schedule-it .schedule-body .am-min {
   display: flex;
   flex: 1;
   justify-content: space-around;
+  padding: 5px;
+  border-left: solid 1px #000;
 }
 
 .schedule-it .schedule-body .pm {
@@ -80,8 +114,24 @@
   justify-content: space-between;
 }
 
+.schedule-it .schedule-body .pm-hours > div {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.schedule-it .schedule-body .pm-hours > .sel {
+  background-color: #000;
+  color: #fff;
+}
+
 .schedule-it .schedule-body .pm .pm-min {
   display: flex;
   flex: 1;
   justify-content: space-around;
+  padding: 5px;
+  border-left: solid 1px #000;
+}
+
+.am-up, .am-down, .pm-up, .pm-down {
+  cursor: pointer;
 }
