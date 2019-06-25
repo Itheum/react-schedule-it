@@ -7,7 +7,7 @@ export default class ScheduleIt extends Component {
     super(props);
 
     this.state = {
-      tab: 0,
+      implement: 'daily',
       dailyTabGroups: 0,
       dailyDays: 0
     };
@@ -18,9 +18,25 @@ export default class ScheduleIt extends Component {
     this.onSwitchDailyDays = this.onSwitchDailyDays.bind(this);
   }
 
+  componentDidMount() {
+    const {value} = this.props;
+    const wipValue = {...value};
+
+    this.setState({...this.state, ...wipValue});
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('componentDidUpdate');
+
+    console.log(prevState);
+    console.log(this.state);
+
+    this.props.onValueUpdated(this.state);
+  }
+
   renderTabContent() {
-    switch(this.state.tab) {
-      case 0:
+    switch(this.state.implement) {
+      case 'daily':
         return <div>
           <div className="tab-groups">
             <div className={this.state.dailyTabGroups === 0 ? "sel" : null} onClick={() => (this.onSwitchDailyTabGroups(0))}>Daily</div>
@@ -90,19 +106,19 @@ export default class ScheduleIt extends Component {
         
         break;
 
-      case 1:
+      case 'forthnightly':
         return <div>Case 1</div>
         break;
 
-      case 2:
+      case 'monthly':
         return <div>Case 2</div>
         break;
     }
   }
 
-  onSwitchTab(tab) {
+  onSwitchTab(implement) {
     this.setState({
-      tab
+      implement
     });
   }
 
@@ -119,15 +135,12 @@ export default class ScheduleIt extends Component {
   }
 
   render() {
-    const { props } = this;
-    console.log(props.value);
-
     return (
       <div className="schedule-it">
         <div className="schedule-tabs">
-          <div className={this.state.tab === 0 ? "sel" : null} onClick={() => (this.onSwitchTab(0))}>Weekly</div>
-          <div className={this.state.tab === 1 ? "sel" : null}  onClick={() => (this.onSwitchTab(1))}>Forthnightly</div>
-          <div className={this.state.tab === 2 ? "sel" : null}  onClick={() => (this.onSwitchTab(2))}>Monthly</div>
+          <div className={this.state.implement === 'daily' ? "sel" : null} onClick={() => (this.onSwitchTab('daily'))}>Weekly</div>
+          <div className={this.state.implement === 'forthnightly' ? "sel" : null}  onClick={() => (this.onSwitchTab('forthnightly'))}>Forthnightly</div>
+          <div className={this.state.implement === 'monthly' ? "sel" : null}  onClick={() => (this.onSwitchTab('monthly'))}>Monthly</div>
         </div>
 
         <div className="schedule-body">
