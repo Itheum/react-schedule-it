@@ -23,6 +23,7 @@ export default class ScheduleIt extends Component {
     this.onSwitchTab = this.onSwitchTab.bind(this);
     this.onSwitchDailyTabGroups = this.onSwitchDailyTabGroups.bind(this);
     this.onSwitchDailyDays = this.onSwitchDailyDays.bind(this);
+    this.onDone = this.onDone.bind(this);
   }
 
   componentDidMount() {
@@ -70,10 +71,10 @@ export default class ScheduleIt extends Component {
   componentDidUpdate(prevProps, prevState) {
     console.log('componentDidUpdate');
 
-    console.log(prevState);
-    console.log(this.state);
+    // console.log(prevState);
+    // console.log(this.state);
 
-    this.props.onValueUpdated(this.state);
+    // this.props.onValueUpdated(this.state);
   }
 
   renderTabContent() {
@@ -164,10 +165,43 @@ export default class ScheduleIt extends Component {
     });
   }
 
-  onSwitchDailyTabGroups(dailyTabGroups) {
+  onSwitchDailyTabGroups(dailyTabGroup) {
+    let dailyTabGroupsNew;
+    let dailyDaysNew;
+    let disableDailyDaysNew;
+
+    switch (dailyTabGroup) {
+      case 'daily':
+        dailyTabGroupsNew = 'daily';
+        dailyDaysNew = ['1','2','3','4','5','6','7'];
+        disableDailyDaysNew = true;
+        break;
+
+      case 'weekdays':
+        dailyTabGroupsNew = 'weekdays';
+        dailyDaysNew = ['1','2','3','4','5'];
+        disableDailyDaysNew = true;
+        break;
+
+      case 'weekends':
+        dailyTabGroupsNew = 'weekends';
+        dailyDaysNew = ['6','7'];
+        disableDailyDaysNew = true;
+        break;
+
+      case 'custom':
+        dailyTabGroupsNew = 'custom';
+        dailyDaysNew = [];
+        disableDailyDaysNew = false;
+        break;
+    }
+
     this.setState({
       working: {
-        dailyTabGroups
+        ...this.state.working,
+        dailyTabGroups: dailyTabGroupsNew,
+        dailyDays: dailyDaysNew,
+        disableDailyDays: disableDailyDaysNew,
       }
     });
   }
@@ -175,6 +209,25 @@ export default class ScheduleIt extends Component {
   onSwitchDailyDays(dailyDays) {
     this.setState({
       dailyDays
+    });
+  }
+
+  onDone() {
+    // update implement
+    let toStringFormat = this.state.working.dailyDays.join('-');
+
+    if (toStringFormat === '1-2-3-4-5-6-7') {
+      toStringFormat = 'daily';
+    }
+
+    // update the core
+    const newCore = {...this.state.core};
+    newCore.implement = toStringFormat;
+
+    this.setState({
+      core:newCore 
+    }, () => {
+      this.props.onValueUpdated(newCore);
     });
   }
 
@@ -189,6 +242,14 @@ export default class ScheduleIt extends Component {
 
         <div className="schedule-body">
           {this.renderTabContent()}
+        </div>
+
+        <div className="footer">
+          <div onClick={this.onDone}>Done</div>
+        </div>
+
+        <div className="debug">
+          {JSON.stringify(this.state.core)}
         </div>
       </div>
     );

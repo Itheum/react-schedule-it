@@ -66,13 +66,13 @@ export default class Example extends Component {
 
   componentWillUnmount() {}
 
-  onValueUpdated(newVal) {
+  onValueUpdated(newVal, changeThis) {
     console.log('onValueUpdated');
     console.log(newVal);
 
-    // this.setState({
-    //   value1Updated: newVal
-    // });
+    this.setState({
+      [changeThis]: newVal
+    });
   }
 
   render() {
@@ -87,7 +87,7 @@ export default class Example extends Component {
                 Edit Value
                 <ScheduleIt 
                   value={this.state.value1}
-                  onValueUpdated={this.onValueUpdated} />
+                  onValueUpdated={(val) => (this.onValueUpdated(val, 'value1Updated'))} />
             </div>
           </div>
 
@@ -99,7 +99,7 @@ export default class Example extends Component {
                 Edit Value
                 <ScheduleIt 
                   value={this.state.value2}
-                  onValueUpdated={this.onValueUpdated} />
+                  onValueUpdated={(val) => (this.onValueUpdated(val, 'value2Updated'))} />
             </div>
           </div>
 
@@ -111,7 +111,7 @@ export default class Example extends Component {
                 Edit Value
                 <ScheduleIt 
                   value={this.state.value3}
-                  onValueUpdated={this.onValueUpdated} />
+                  onValueUpdated={(val) => (this.onValueUpdated(val, 'value3Updated'))} />
             </div>
           </div>
 
@@ -123,7 +123,7 @@ export default class Example extends Component {
                 Edit Value
                 <ScheduleIt 
                   value={this.state.value4}
-                  onValueUpdated={this.onValueUpdated} />
+                  onValueUpdated={(val) => (this.onValueUpdated(val, 'value4Updated'))} />
             </div>
           </div>
 
@@ -135,7 +135,7 @@ export default class Example extends Component {
                 Edit Value
                 <ScheduleIt 
                   value={this.state.value5}
-                  onValueUpdated={this.onValueUpdated} />
+                  onValueUpdated={(val) => (this.onValueUpdated(val, 'value5Updated'))} />
             </div>
           </div> 
 
@@ -147,7 +147,7 @@ export default class Example extends Component {
                 Edit Value
                 <ScheduleIt 
                   value={this.state.value6}
-                  onValueUpdated={this.onValueUpdated} />
+                  onValueUpdated={(val) => (this.onValueUpdated(val, 'value6Updated'))} />
             </div>
           </div>          
         </div>

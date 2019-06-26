@@ -137,6 +137,20 @@
   border-left: solid 1px #000;
 }
 
-.am-up, .am-down, .pm-up, .pm-down {
+.schedule-it .am-up, .am-down, .pm-up, .pm-down {
+  cursor: pointer;
+}
+
+.schedule-it .footer {
+  margin-top: 5px;
+  margin-left: auto;
+}
+
+.schedule-it .footer > div {
+  background: #333;
+  color: #fff;
+  padding: 5px;
+  width: 100px;
+  text-align: center;
   cursor: pointer;
 }
