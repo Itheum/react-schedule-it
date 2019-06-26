@@ -56,6 +56,11 @@
   justify-content: space-around;
 }
 
+.schedule-it .schedule-body .days.disable {
+  opacity: .3;
+  pointer-events: none;
+}
+
 .schedule-it .schedule-body .days > div {
   border: solid 1px black;
   flex: 1;

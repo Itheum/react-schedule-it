@@ -7,9 +7,16 @@ export default class ScheduleIt extends Component {
     super(props);
 
     this.state = {
-      implement: 'daily',
-      dailyTabGroups: 0,
-      dailyDays: 0
+      core: {
+        via: null,
+        implement: null,
+      },
+      working: {
+        via: null,
+        dailyTabGroups: null,
+        dailyDays: [],
+        disableDailyDays: false
+      }
     };
 
     this.renderTabContent = this.renderTabContent.bind(this);
@@ -20,9 +27,44 @@ export default class ScheduleIt extends Component {
 
   componentDidMount() {
     const {value} = this.props;
-    const wipValue = {...value};
+    const originalCoreValue = {...value};
+    const originalWorkingValue = {...this.state.working};
 
-    this.setState({...this.state, ...wipValue});
+    switch (originalCoreValue.implement) {
+      case 'daily':
+      case '1-2-3-4-5-6-7':
+        originalWorkingValue.via = 'weekly';
+        originalWorkingValue.dailyTabGroups = 'daily';
+        originalWorkingValue.dailyDays = ['1','2','3','4','5','6','7'];
+        originalWorkingValue.disableDailyDays = true;
+        break;
+
+      case '6-7':
+        originalWorkingValue.via = 'weekly';
+        originalWorkingValue.dailyTabGroups = 'weekends';
+        originalWorkingValue.dailyDays = originalCoreValue.implement.split('-');
+        originalWorkingValue.disableDailyDays = true;
+        break;
+
+      case '1-2-3-4-5':
+        originalWorkingValue.via = 'weekly';
+        originalWorkingValue.dailyTabGroups = 'weekdays';
+        originalWorkingValue.dailyDays = originalCoreValue.implement.split('-');
+        originalWorkingValue.disableDailyDays = true;
+        break;
+
+      default:
+        originalWorkingValue.via = 'weekly';
+        originalWorkingValue.dailyTabGroups = 'custom';
+        originalWorkingValue.dailyDays = originalCoreValue.implement.split('-');
+        originalWorkingValue.disableDailyDays = false;
+        break;
+    }
+
+    this.setState({
+      core: originalCoreValue,
+      working: originalWorkingValue
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -35,24 +77,24 @@ export default class ScheduleIt extends Component {
   }
 
   renderTabContent() {
-    switch(this.state.implement) {
-      case 'daily':
+    switch(this.state.working.via) {
+      case 'weekly':
         return <div>
           <div className="tab-groups">
-            <div className={this.state.dailyTabGroups === 0 ? "sel" : null} onClick={() => (this.onSwitchDailyTabGroups(0))}>Daily</div>
-            <div className={this.state.dailyTabGroups === 1 ? "sel" : null} onClick={() => (this.onSwitchDailyTabGroups(1))}>Weekdays</div>
-            <div className={this.state.dailyTabGroups === 2 ? "sel" : null} onClick={() => (this.onSwitchDailyTabGroups(2))}>Weekends</div>
-            <div className={this.state.dailyTabGroups === 3 ? "sel" : null} onClick={() => (this.onSwitchDailyTabGroups(3))}>Custom Days</div>
+            <div className={this.state.working.dailyTabGroups === 'daily' ? "sel" : null} onClick={() => (this.onSwitchDailyTabGroups('daily'))}>Daily</div>
+            <div className={this.state.working.dailyTabGroups === 'weekdays' ? "sel" : null} onClick={() => (this.onSwitchDailyTabGroups('weekdays'))}>Weekdays</div>
+            <div className={this.state.working.dailyTabGroups === 'weekends' ? "sel" : null} onClick={() => (this.onSwitchDailyTabGroups('weekends'))}>Weekends</div>
+            <div className={this.state.working.dailyTabGroups === 'custom' ? "sel" : null} onClick={() => (this.onSwitchDailyTabGroups('custom'))}>Custom Days</div>
           </div>
 
-          <div className="days">
-            <div className={this.state.dailyDays === 0 ? "sel" : null} onClick={() => (this.onSwitchDailyDays(0))}>Mon</div>
-            <div className={this.state.dailyDays === 1 ? "sel" : null} onClick={() => (this.onSwitchDailyDays(1))}>Tue</div>
-            <div className={this.state.dailyDays === 2 ? "sel" : null} onClick={() => (this.onSwitchDailyDays(2))}>Wed</div>
-            <div className={this.state.dailyDays === 3 ? "sel" : null} onClick={() => (this.onSwitchDailyDays(3))}>Thu</div>
-            <div className={this.state.dailyDays === 4 ? "sel" : null} onClick={() => (this.onSwitchDailyDays(4))}>Fri</div>
-            <div className={this.state.dailyDays === 5 ? "sel" : null} onClick={() => (this.onSwitchDailyDays(5))}>Sat</div>
-            <div className={this.state.dailyDays === 6 ? "sel" : null} onClick={() => (this.onSwitchDailyDays(6))}>Sun</div>
+          <div className="days" className={this.state.working.disableDailyDays ? 'days disable' : 'days'}>
+            <div className={this.state.working.dailyDays.indexOf('1') > -1 ? "sel" : null} onClick={() => (this.onSwitchDailyDays(0))}>Mon</div>
+            <div className={this.state.working.dailyDays.indexOf('2') > -1 ? "sel" : null} onClick={() => (this.onSwitchDailyDays(1))}>Tue</div>
+            <div className={this.state.working.dailyDays.indexOf('3') > -1 ? "sel" : null} onClick={() => (this.onSwitchDailyDays(2))}>Wed</div>
+            <div className={this.state.working.dailyDays.indexOf('4') > -1 ? "sel" : null} onClick={() => (this.onSwitchDailyDays(3))}>Thu</div>
+            <div className={this.state.working.dailyDays.indexOf('5') > -1 ? "sel" : null} onClick={() => (this.onSwitchDailyDays(4))}>Fri</div>
+            <div className={this.state.working.dailyDays.indexOf('6') > -1 ? "sel" : null} onClick={() => (this.onSwitchDailyDays(5))}>Sat</div>
+            <div className={this.state.working.dailyDays.indexOf('7') > -1 ? "sel" : null} onClick={() => (this.onSwitchDailyDays(6))}>Sun</div>
           </div>
 
           <div className="am">
@@ -124,7 +166,9 @@ export default class ScheduleIt extends Component {
 
   onSwitchDailyTabGroups(dailyTabGroups) {
     this.setState({
-      dailyTabGroups
+      working: {
+        dailyTabGroups
+      }
     });
   }
 
@@ -138,9 +182,9 @@ export default class ScheduleIt extends Component {
     return (
       <div className="schedule-it">
         <div className="schedule-tabs">
-          <div className={this.state.implement === 'daily' ? "sel" : null} onClick={() => (this.onSwitchTab('daily'))}>Weekly</div>
-          <div className={this.state.implement === 'forthnightly' ? "sel" : null}  onClick={() => (this.onSwitchTab('forthnightly'))}>Forthnightly</div>
-          <div className={this.state.implement === 'monthly' ? "sel" : null}  onClick={() => (this.onSwitchTab('monthly'))}>Monthly</div>
+          <div className={this.state.working.via === 'daily' ? "sel" : null} onClick={() => (this.onSwitchTab('daily'))}>Weekly</div>
+          <div className={this.state.working.via === 'forthnightly' ? "sel" : null}  onClick={() => (this.onSwitchTab('forthnightly'))}>Forthnightly</div>
+          <div className={this.state.working.via=== 'monthly' ? "sel" : null}  onClick={() => (this.onSwitchTab('monthly'))}>Monthly</div>
         </div>
 
         <div className="schedule-body">

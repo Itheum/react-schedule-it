@@ -27,9 +27,11 @@ is the react scheduling ui component of the Itheum platform
     - Options:
       - `minimum number of responses` - e.g. 1 for minAm means that that at least 1 reading should be given in the AM
 
-### Examples
+## Examples
 
-- Schedule task everyday (daily) at 7AM and 8PM. At least 1 AM and 1 PM response is expected.
+#### per week based examples
+
+- Eg 1: Schedule task everyday (daily) at 7AM and 8PM. At least 1 AM and 1 PM response is expected.
 ```
 {
   "implement": "daily",
@@ -39,8 +41,9 @@ is the react scheduling ui component of the Itheum platform
   "minPm": 1
 }
 ```
+Note: daily is like an alias for 1-2-3-4-5-6-7 so we will support these both
 
-- Schedule task every thursday and sunday at 9PM only. At least 1 PM response is expected.
+- Eg 2: Schedule task every thursday and sunday at 9PM only. At least 1 PM response is expected.
 ```
 {
   "implement": "4-7",
@@ -51,13 +54,145 @@ is the react scheduling ui component of the Itheum platform
 }
 ```
 
-- Schedule task everyday (daily) at 8AM and 7PM and 8PM. At least 1 AM and 1 PM response is expected ideally (user should at least take 1 PM reading even though 2 is recommended).
+- Eg 3: Schedule task weekdays at 9PM only. At least 1 PM response is expected.
+```
+{
+  "implement": "1-2-3-4-5",
+  "am": [],
+  "pm": ["9:00"],
+  "minAm": 0,
+  "minPm": 1
+}
+```
+
+- Eg 4: Schedule task weekends at 9PM only. At least 1 PM response is expected.
+```
+{
+  "implement": "6-7",
+  "am": [],
+  "pm": ["9:00"],
+  "minAm": 0,
+  "minPm": 1
+}
+```
+
+- Eg 5: Schedule task everyday (daily) at 8AM and 7PM and 8PM. At least 1 AM and 1 PM response is expected ideally (user should at least take 1 PM reading even though 2 is recommended).
 ```
 {
   "implement": "daily",
   "am": ["8:00"],
   "pm": ["7:00", "8:00"],
   "minAm": 1,
+  "minPm": 1
+}
+```
+
+- Eg 6: Schedule task everyday (daily) at 7AM and 8PM. At least 1 AM and 1 PM response is expected.
+```
+{
+  "implement": "1-2-3-4-5-6-7",
+  "am": ["7:00"],
+  "pm": ["8:00"],
+  "minAm": 1,
+  "minPm": 1
+}
+```
+Note: same as using alias daily for implement (see example 1)
+
+#### forthnightly based examples - (Not Supported Yet)
+- Schedule task every OTHER WEEK (forthnightly) on thursday and sunday at 9PM only. At least 1 PM response is expected.
+```
+{
+  "via": "forthnight",
+  "implement": "4-7",
+  "am": [],
+  "pm": ["9:00"],
+  "minAm": 0,
+  "minPm": 1
+}
+```
+
+- Schedule task every OTHER WEEK (forthnightly) daily at 9PM only. At least 1 PM response is expected.
+```
+{
+  "via": "forthnight",
+  "implement": "1-2-3-4-5",
+  "am": [],
+  "pm": ["9:00"],
+  "minAm": 0,
+  "minPm": 1
+}
+```
+
+- Schedule task every OTHER WEEK (forthnightly) on weekends at 9PM only. At least 1 PM response is expected.
+```
+{
+  "via": "forthnight",
+  "implement": "6-7",
+  "am": [],
+  "pm": ["9:00"],
+  "minAm": 0,
+  "minPm": 1
+}
+```
+
+#### monthly based examples - (Not Supported Yet)
+- Schedule task on the first day of every MONTH at 9PM only. At least 1 PM response is expected on that day.
+```
+{
+  "via": "month",
+  "implement": "first",
+  "am": [],
+  "pm": ["9:00"],
+  "minAm": 0,
+  "minPm": 1
+}
+```
+
+- Schedule task on the last day of every MONTH at 9PM only. At least 1 PM response is expected on that day.
+```
+{
+  "via": "month",
+  "implement": "last",
+  "am": [],
+  "pm": ["9:00"],
+  "minAm": 0,
+  "minPm": 1
+}
+```
+
+- Schedule task on the 1st monday of every MONTH at 9PM only. At least 1 PM response is expected on that day.
+```
+{
+  "via": "month",
+  "implement": "first:1",
+  "am": [],
+  "pm": ["9:00"],
+  "minAm": 0,
+  "minPm": 1
+}
+```
+
+- Schedule task on the last friday of every MONTH at 9PM only. At least 1 PM response is expected on that day.
+```
+{
+  "via": "month",
+  "implement": "last:5",
+  "am": [],
+  "pm": ["9:00"],
+  "minAm": 0,
+  "minPm": 1
+}
+```
+
+- Schedule task on the first week of every MONTH at 9PM only. At least 1 PM response is expected on that day.
+```
+{
+  "via": "month",
+  "implement": "last:1-2-3-4-5-6-7",
+  "am": [],
+  "pm": ["9:00"],
+  "minAm": 0,
   "minPm": 1
 }
 ```
