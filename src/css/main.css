@@ -27,6 +27,7 @@
   background-color: #FFF;
   padding: 10px;
   border: solid 2px black;
+  min-height: 200px;
 }
 
 .schedule-it .schedule-body .tab-groups {
