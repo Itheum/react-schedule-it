@@ -99,11 +99,11 @@ Note: daily is like an alias for 1-2-3-4-5-6-7 so we will support these both
 ```
 Note: same as using alias daily for implement (see example 1)
 
-#### forthnightly based examples - (Not Supported Yet)
+#### forthnightly based examples
 - Schedule task every OTHER WEEK (forthnightly) on thursday and sunday at 9PM only. At least 1 PM response is expected.
 ```
 {
-  "via": "forthnight",
+  "via": "forthnightly",
   "implement": "4-7",
   "am": [],
   "pm": ["9:00"],
@@ -115,7 +115,7 @@ Note: same as using alias daily for implement (see example 1)
 - Schedule task every OTHER WEEK (forthnightly) daily at 9PM only. At least 1 PM response is expected.
 ```
 {
-  "via": "forthnight",
+  "via": "forthnightly",
   "implement": "1-2-3-4-5",
   "am": [],
   "pm": ["9:00"],
@@ -127,7 +127,7 @@ Note: same as using alias daily for implement (see example 1)
 - Schedule task every OTHER WEEK (forthnightly) on weekends at 9PM only. At least 1 PM response is expected.
 ```
 {
-  "via": "forthnight",
+  "via": "forthnightly",
   "implement": "6-7",
   "am": [],
   "pm": ["9:00"],
@@ -136,11 +136,11 @@ Note: same as using alias daily for implement (see example 1)
 }
 ```
 
-#### monthly based examples - (Not Supported Yet)
+#### monthlyly based examples
 - Schedule task on the first day of every MONTH at 9PM only. At least 1 PM response is expected on that day.
 ```
 {
-  "via": "month",
+  "via": "monthly",
   "implement": "first",
   "am": [],
   "pm": ["9:00"],
@@ -152,7 +152,7 @@ Note: same as using alias daily for implement (see example 1)
 - Schedule task on the last day of every MONTH at 9PM only. At least 1 PM response is expected on that day.
 ```
 {
-  "via": "month",
+  "via": "monthly",
   "implement": "last",
   "am": [],
   "pm": ["9:00"],
@@ -164,7 +164,7 @@ Note: same as using alias daily for implement (see example 1)
 - Schedule task on the 1st monday of every MONTH at 9PM only. At least 1 PM response is expected on that day.
 ```
 {
-  "via": "month",
+  "via": "monthly",
   "implement": "first:1",
   "am": [],
   "pm": ["9:00"],
@@ -176,7 +176,7 @@ Note: same as using alias daily for implement (see example 1)
 - Schedule task on the last friday of every MONTH at 9PM only. At least 1 PM response is expected on that day.
 ```
 {
-  "via": "month",
+  "via": "monthly",
   "implement": "last:5",
   "am": [],
   "pm": ["9:00"],
@@ -188,7 +188,7 @@ Note: same as using alias daily for implement (see example 1)
 - Schedule task on the first week of every MONTH at 9PM only. At least 1 PM response is expected on that day.
 ```
 {
-  "via": "month",
+  "via": "monthly",
   "implement": "last:1-2-3-4-5-6-7",
   "am": [],
   "pm": ["9:00"],

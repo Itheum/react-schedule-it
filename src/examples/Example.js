@@ -59,7 +59,7 @@ export default class Example extends Component {
       valueW6Updated: {},
 
       valueF1: {
-        "via": "forthnight",
+        "via": "forthnightly",
         "implement": "4-7",
         "am": [],
         "pm": ["9:00"],
@@ -69,7 +69,7 @@ export default class Example extends Component {
       valueF1Updated: {},
 
       valueF2: {
-        "via": "forthnight",
+        "via": "forthnightly",
         "implement": "1-2-3-4-5",
         "am": [],
         "pm": ["9:00"],
@@ -79,7 +79,7 @@ export default class Example extends Component {
       valueF2Updated: {},
 
       valueF3: {
-        "via": "forthnight",
+        "via": "forthnightly",
         "implement": "6-7",
         "am": [],
         "pm": ["9:00"],
@@ -88,7 +88,56 @@ export default class Example extends Component {
       },
       valueF3Updated: {},
 
+      valueM1: {
+        "via": "monthly",
+        "implement": "first",
+        "am": [],
+        "pm": ["9:00"],
+        "minAm": 0,
+        "minPm": 1
+      },
+      valueM1Updated: {},
 
+      valueM2: {
+        "via": "monthly",
+        "implement": "last",
+        "am": [],
+        "pm": ["9:00"],
+        "minAm": 0,
+        "minPm": 1
+      },
+      valueM2Updated: {},
+
+      valueM3: {
+        "via": "monthly",
+        "implement": "first:1",
+        "am": [],
+        "pm": ["9:00"],
+        "minAm": 0,
+        "minPm": 1
+      },
+      valueM3Updated: {},
+
+      valueM4: {
+        "via": "monthly",
+        "implement": "last:5",
+        "am": [],
+        "pm": ["9:00"],
+        "minAm": 0,
+        "minPm": 1
+      },
+      valueM4Updated: {},
+
+      valueM5: {
+        "via": "monthly",
+        "implement": "last:1-2-3-4-5-6-7",
+        "am": [],
+        "pm": ["9:00"],
+        "minAm": 0,
+        "minPm": 1
+      },
+      valueM5Updated: {},
+      
     };
 
     this.onValueUpdated = this.onValueUpdated.bind(this);
@@ -221,7 +270,74 @@ export default class Example extends Component {
                 Edit Value
                 <ScheduleIt 
                   value={this.state.valueF3}
+                  supportedOptions={['weekly', 'forthnightly']}
                   onValueUpdated={(val) => (this.onValueUpdated(val, 'valueF3Updated'))} />
+            </div>
+          </div>
+
+        </div>
+
+
+        <div>
+          <h2>Monthly</h2>
+          
+          <div className='an-eg'>
+            <div>Example 1</div>
+            <div>Original Input: {JSON.stringify(this.state.valueM1)}</div>
+            <div>Updated Input: {JSON.stringify(this.state.valueM1Updated)}</div>
+            <div className="widget-holder">
+                Edit Value
+                <ScheduleIt 
+                  value={this.state.valueM1}
+                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueM1Updated'))} />
+            </div>
+          </div>
+
+          <div className='an-eg'>
+            <div>Example 2</div>
+            <div>Original Input: {JSON.stringify(this.state.valueM2)}</div>
+            <div>Updated Input: {JSON.stringify(this.state.valueM2Updated)}</div>
+            <div className="widget-holder">
+                Edit Value
+                <ScheduleIt 
+                  value={this.state.valueM2}
+                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueM2Updated'))} />
+            </div>
+          </div>
+
+          <div className='an-eg'>
+            <div>Example 3</div>
+            <div>Original Input: {JSON.stringify(this.state.valueM3)}</div>
+            <div>Updated Input: {JSON.stringify(this.state.valueM3Updated)}</div>
+            <div className="widget-holder">
+                Edit Value
+                <ScheduleIt 
+                  value={this.state.valueM3}
+                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueM3Updated'))} />
+            </div>
+          </div>
+
+          <div className='an-eg'>
+            <div>Example 4</div>
+            <div>Original Input: {JSON.stringify(this.state.valueM4)}</div>
+            <div>Updated Input: {JSON.stringify(this.state.valueM4Updated)}</div>
+            <div className="widget-holder">
+                Edit Value
+                <ScheduleIt 
+                  value={this.state.valueM4}
+                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueM4Updated'))} />
+            </div>
+          </div>
+
+          <div className='an-eg'>
+            <div>Example 5</div>
+            <div>Original Input: {JSON.stringify(this.state.valueM5)}</div>
+            <div>Updated Input: {JSON.stringify(this.state.valueM5Updated)}</div>
+            <div className="widget-holder">
+                Edit Value
+                <ScheduleIt 
+                  value={this.state.valueM5}
+                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueM5Updated'))} />
             </div>
           </div>
 
