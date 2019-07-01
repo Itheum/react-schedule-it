@@ -207,3 +207,13 @@ npm install --save react-schedule-it
 import ScheduleIt from "react-schedule-it";
 ```
 - define the list of all the components* you want to step through. The `name` indicates the title of the UI step and component is what loads.
+
+
+   componentDidUpdate(prevProps, prevState) {
+    console.log('componentDidUpdate');
+
+    // console.log(prevState);
+    // console.log(this.state);
+
+    // this.props.onValueUpdated(this.state);
+  }

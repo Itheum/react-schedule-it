@@ -1,5 +1,5 @@
 .schedule-it {
-  background-color: #CCC;
+
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -7,7 +7,6 @@
 }
 
 .schedule-it .schedule-tabs {
-  background-color: #ddd;
   display: flex;
   justify-content: space-around;
 }
@@ -19,12 +18,10 @@
 }
 
 .schedule-it .schedule-tabs > .sel {
-  background-color: #000;
   color: #fff;
 }
 
 .schedule-it .schedule-body {
-  background-color: #FFF;
   padding: 10px;
   border: solid 2px black;
   min-height: 200px;
@@ -47,7 +44,6 @@
 }
 
 .schedule-it .schedule-body .tab-groups > .sel {
-  background-color: #000;
   color: #fff;
 }
 
@@ -72,12 +68,10 @@
 }
 
 .schedule-it .schedule-body .days > .sel {
-  background-color: #000;
   color: #fff;
 }
 
 .schedule-it .schedule-body .am {
-  background-color: #DDD;
   display: flex;
   padding: 5px;
   margin-bottom: 5px;
@@ -95,7 +89,6 @@
 }
 
 .schedule-it .schedule-body .am-hours > .sel {
-  background-color: #000;
   color: #fff;
 }
 
@@ -108,7 +101,6 @@
 }
 
 .schedule-it .schedule-body .pm {
-  background-color: #DDD;
   display: flex;
   padding: 5px;
   margin-bottom: 5px;
@@ -126,7 +118,6 @@
 }
 
 .schedule-it .schedule-body .pm-hours > .sel {
-  background-color: #000;
   color: #fff;
 }
 
@@ -154,4 +145,21 @@
   width: 100px;
   text-align: center;
   cursor: pointer;
+}
+
+/* themes colors */
+.schedule-it.color1 {
+  background-color: #CCC;
+}
+
+.schedule-it .color2 {
+  background-color: #DDD;
+}
+
+.schedule-it .color3 {
+  background-color: #000;
+}
+
+.schedule-it .color4 {
+  background-color: #FFF;
 }
