@@ -36,6 +36,7 @@ export default class ScheduleIt extends Component {
     this.updateMin = this.updateMin.bind(this);
     this.onDone = this.onDone.bind(this);
     this.coreAsFriendlyText = this.coreAsFriendlyText.bind(this);
+    this.renderMinCount = this.renderMinCount.bind(this);
   }
   
   componentDidMount() {
@@ -43,7 +44,7 @@ export default class ScheduleIt extends Component {
     const originalCoreValue = {...value};
     const originalWorkingValue = {...this.state.working};
 
-    //for  weekly via will be undefined
+    //for weekly 'via' will be undefined
     if (!originalCoreValue.via) {
       originalWorkingValue.via = 'weekly';
     } else {
@@ -70,12 +71,34 @@ export default class ScheduleIt extends Component {
         originalWorkingValue.disableDailyDays = true;
         break;
 
+      case 'first': // monthly
+        originalWorkingValue.dailyTabGroups = 'monthlyFirstDay';
+        originalWorkingValue.disableDailyDays = true;
+        break;
+
+      case 'last': // monthly
+        originalWorkingValue.dailyTabGroups = 'monthlyLastDay';
+        originalWorkingValue.disableDailyDays = true;
+        break;
+
       default:
         originalWorkingValue.dailyTabGroups = 'custom';
         originalWorkingValue.dailyDays = originalCoreValue.implement.split('-');
         originalWorkingValue.disableDailyDays = false;
         break;
     }
+
+    // S: other monthly implement rules
+    if (originalCoreValue.implement.indexOf('first:') > -1) {
+      originalWorkingValue.dailyTabGroups = 'monthlyLastDaySpecificFirstDays';
+      originalWorkingValue.dailyDays = originalCoreValue.implement.split(':')[1].split('-');
+    }
+
+    if (originalCoreValue.implement.indexOf('last:') > -1) {
+      originalWorkingValue.dailyTabGroups = 'monthlyLastDaySpecificLastDays';
+      originalWorkingValue.dailyDays = originalCoreValue.implement.split(':')[1].split('-');
+    }
+    // E: other monthly implement rules
 
     // track the hours always
     originalWorkingValue.dailyHoursAM = originalCoreValue.am;
@@ -89,6 +112,14 @@ export default class ScheduleIt extends Component {
       core: originalCoreValue,
       working: originalWorkingValue
     });
+  }
+
+  renderMinCount(val) {
+    if (!val) {
+      return <div>0</div>;
+    } else {
+      return <div>{val}</div>
+    }
   }
   
   renderTabContent() {
@@ -142,7 +173,7 @@ export default class ScheduleIt extends Component {
         <div className="am-min">
           <div>Min AM</div>
           <div className="am-down" onClick={() => (this.updateMin(0, 'am'))}>[-]</div>
-          {/* <div><span><div>{this.state.working.minAMCount > 0 && this.state.working.minAMCount.toString() || '0'}</div></span></div> */}
+          <div>{this.renderMinCount(this.state.working.minAMCount)}</div>
           <div className="am-up" onClick={() => (this.updateMin(1, 'am'))}>[+]</div>
         </div>
       </div>
@@ -166,7 +197,7 @@ export default class ScheduleIt extends Component {
         <div className="pm-min">
           <div>Min PM</div>
           <div className="pm-down" onClick={() => (this.updateMin(0, 'pm'))}>[-]</div>
-          {/* <div><span><div>{this.state.working.minPMCount > 0 && this.state.working.minPMCount.toString() || '0'}</div></span></div> */}
+          <div>{this.renderMinCount(this.state.working.minPMCount)}</div>
           <div className="pm-up" onClick={() => (this.updateMin(1, 'pm'))}>[+]</div>
         </div>
       </div>
@@ -215,29 +246,29 @@ export default class ScheduleIt extends Component {
 
       case 'custom':
         dailyTabGroupsNew = 'custom';
-        dailyDaysNew = [];
+        dailyDaysNew = ['1']; // start with 1 item ie mon
         disableDailyDaysNew = false;
         break;
 
-      case 'monthlyFirstDay':
+      case 'monthlyFirstDay': // monthly
         dailyTabGroupsNew = 'monthlyFirstDay';
         dailyDaysNew = [];
-        disableDailyDaysNew = false;
+        disableDailyDaysNew = true;
         break;
 
-      case 'monthlyLastDay':
+      case 'monthlyLastDay': // monthly
         dailyTabGroupsNew = 'monthlyLastDay';
         dailyDaysNew = [];
-        disableDailyDaysNew = false;
+        disableDailyDaysNew = true;
         break;
 
-      case 'monthlyLastDaySpecificFirstDays':
+      case 'monthlyLastDaySpecificFirstDays': // monthly
         dailyTabGroupsNew = 'monthlyLastDaySpecificFirstDays';
         dailyDaysNew = [];
         disableDailyDaysNew = false;
         break;
 
-      case 'monthlyLastDaySpecificLastDays':
+      case 'monthlyLastDaySpecificLastDays': // monthly
         dailyTabGroupsNew = 'monthlyLastDaySpecificLastDays';
         dailyDaysNew = [];
         disableDailyDaysNew = false;
@@ -260,7 +291,10 @@ export default class ScheduleIt extends Component {
     if (dailyDaysNew.indexOf(day) === -1) {
       dailyDaysNew.push(day);
     } else {
-      dailyDaysNew.splice(dailyDaysNew.indexOf(day), 1);
+      // dont allow to completly empty the array
+      if (dailyDaysNew.length > 1) {
+        dailyDaysNew.splice(dailyDaysNew.indexOf(day), 1);
+      }
     }
 
     dailyDaysNew.sort();
@@ -352,6 +386,17 @@ export default class ScheduleIt extends Component {
       toStringFormat = 'daily';
     }
 
+    // monthly ;
+    if (this.state.working.dailyTabGroups === 'monthlyLastDaySpecificFirstDays') {
+      toStringFormat = 'first:' + toStringFormat;
+    } else if (this.state.working.dailyTabGroups === 'monthlyLastDaySpecificLastDays') {
+      toStringFormat = 'last:' + toStringFormat;
+    } else if (this.state.working.dailyTabGroups === 'monthlyFirstDay') {
+      toStringFormat = 'first';
+    } else if (this.state.working.dailyTabGroups === 'monthlyLastDay') {
+      toStringFormat = 'last';
+    }
+
     // update the core
     const newCore = {...this.state.core};
     newCore.implement = toStringFormat;
@@ -374,14 +419,13 @@ export default class ScheduleIt extends Component {
 
     let str = 'Request ';
 
-    // implement to string
     // via
     if (this.state.core.via === 'forthnightly') {
       str += 'Forthnightly ';
     } else if (this.state.core.via === 'monthly') {
       str += 'Monthly ';
     }
-
+    
     switch (this.state.core.implement) {
       case 'daily':
       case '1-2-3-4-5-6-7':
@@ -400,6 +444,22 @@ export default class ScheduleIt extends Component {
         const imlSrt = this.state.core.implement;
 
         str += 'on ';
+
+        // S: monthly
+        if (imlSrt.indexOf('first:daily') > -1) {
+          str += 'the first week';
+        } else if (imlSrt.indexOf('last:daily') > -1) {
+          str += 'the last week ';
+        } else if (imlSrt.indexOf('first:') > -1) {
+          str += 'the first ';
+        } else if (imlSrt.indexOf('last:') > -1) {
+          str += 'the last ';
+        } else if (imlSrt.indexOf('first') > -1) {
+          str += 'the very first day ';
+        } else if (imlSrt.indexOf('last') > -1) {
+          str += 'the very last day ';
+        } 
+        // E: monthly
         
         if (imlSrt.indexOf('1') > -1) {
           str += 'Mon ';

@@ -167,10 +167,9 @@ export default class Example extends Component {
             <div>Original Input: {JSON.stringify(this.state.valueW1)}</div>
             <div>Updated Input: {JSON.stringify(this.state.valueW1Updated)}</div>
             <div className="widget-holder">
-                Edit Value
-                <ScheduleIt 
-                  value={this.state.valueW1}
-                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueW1Updated'))} />
+              <ScheduleIt 
+                value={this.state.valueW1}
+                onValueUpdated={(val) => (this.onValueUpdated(val, 'valueW1Updated'))} />
             </div>
           </div>
 
@@ -179,10 +178,9 @@ export default class Example extends Component {
             <div>Original Input: {JSON.stringify(this.state.valueW2)}</div>
             <div>Updated Input: {JSON.stringify(this.state.valueW2Updated)}</div>
             <div className="widget-holder">
-                Edit Value
-                <ScheduleIt 
-                  value={this.state.valueW2}
-                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueW2Updated'))} />
+              <ScheduleIt 
+                value={this.state.valueW2}
+                onValueUpdated={(val) => (this.onValueUpdated(val, 'valueW2Updated'))} />
             </div>
           </div>
 
@@ -191,10 +189,9 @@ export default class Example extends Component {
             <div>Original Input: {JSON.stringify(this.state.valueW3)}</div>
             <div>Updated Input: {JSON.stringify(this.state.valueW3Updated)}</div>
             <div className="widget-holder">
-                Edit Value
-                <ScheduleIt 
-                  value={this.state.valueW3}
-                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueW3Updated'))} />
+              <ScheduleIt 
+                value={this.state.valueW3}
+                onValueUpdated={(val) => (this.onValueUpdated(val, 'valueW3Updated'))} />
             </div>
           </div>
 
@@ -203,10 +200,9 @@ export default class Example extends Component {
             <div>Original Input: {JSON.stringify(this.state.valueW4)}</div>
             <div>Updated Input: {JSON.stringify(this.state.valueW4Updated)}</div>
             <div className="widget-holder">
-                Edit Value
-                <ScheduleIt 
-                  value={this.state.valueW4}
-                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueW4Updated'))} />
+              <ScheduleIt 
+                value={this.state.valueW4}
+                onValueUpdated={(val) => (this.onValueUpdated(val, 'valueW4Updated'))} />
             </div>
           </div>
 
@@ -215,10 +211,9 @@ export default class Example extends Component {
             <div>Original Input: {JSON.stringify(this.state.valueW5)}</div>
             <div>Updated Input: {JSON.stringify(this.state.valueW5Updated)}</div>
             <div className="widget-holder">
-                Edit Value
-                <ScheduleIt 
-                  value={this.state.valueW5}
-                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueW5Updated'))} />
+              <ScheduleIt 
+                value={this.state.valueW5}
+                onValueUpdated={(val) => (this.onValueUpdated(val, 'valueW5Updated'))} />
             </div>
           </div> 
 
@@ -227,10 +222,9 @@ export default class Example extends Component {
             <div>Original Input: {JSON.stringify(this.state.valueW6)}</div>
             <div>Updated Input: {JSON.stringify(this.state.valueW6Updated)}</div>
             <div className="widget-holder">
-                Edit Value
-                <ScheduleIt 
-                  value={this.state.valueW6}
-                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueW6Updated'))} />
+              <ScheduleIt 
+                value={this.state.valueW6}
+                onValueUpdated={(val) => (this.onValueUpdated(val, 'valueW6Updated'))} />
             </div>
           </div>          
         </div>
@@ -243,10 +237,9 @@ export default class Example extends Component {
             <div>Original Input: {JSON.stringify(this.state.valueF1)}</div>
             <div>Updated Input: {JSON.stringify(this.state.valueF1Updated)}</div>
             <div className="widget-holder">
-                Edit Value
-                <ScheduleIt 
-                  value={this.state.valueF1}
-                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueF1Updated'))} />
+              <ScheduleIt 
+                value={this.state.valueF1}
+                onValueUpdated={(val) => (this.onValueUpdated(val, 'valueF1Updated'))} />
             </div>
           </div>
 
@@ -255,10 +248,9 @@ export default class Example extends Component {
             <div>Original Input: {JSON.stringify(this.state.valueF2)}</div>
             <div>Updated Input: {JSON.stringify(this.state.valueF2Updated)}</div>
             <div className="widget-holder">
-                Edit Value
-                <ScheduleIt 
-                  value={this.state.valueF2}
-                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueF2Updated'))} />
+              <ScheduleIt 
+                value={this.state.valueF2}
+                onValueUpdated={(val) => (this.onValueUpdated(val, 'valueF2Updated'))} />
             </div>
           </div>
 
@@ -267,11 +259,10 @@ export default class Example extends Component {
             <div>Original Input: {JSON.stringify(this.state.valueF3)}</div>
             <div>Updated Input: {JSON.stringify(this.state.valueF3Updated)}</div>
             <div className="widget-holder">
-                Edit Value
-                <ScheduleIt 
-                  value={this.state.valueF3}
-                  supportedOptions={['weekly', 'forthnightly']}
-                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueF3Updated'))} />
+              <ScheduleIt 
+                value={this.state.valueF3}
+                supportedOptions={['weekly', 'forthnightly']}
+                onValueUpdated={(val) => (this.onValueUpdated(val, 'valueF3Updated'))} />
             </div>
           </div>
 
@@ -286,10 +277,9 @@ export default class Example extends Component {
             <div>Original Input: {JSON.stringify(this.state.valueM1)}</div>
             <div>Updated Input: {JSON.stringify(this.state.valueM1Updated)}</div>
             <div className="widget-holder">
-                Edit Value
-                <ScheduleIt 
-                  value={this.state.valueM1}
-                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueM1Updated'))} />
+              <ScheduleIt 
+                value={this.state.valueM1}
+                onValueUpdated={(val) => (this.onValueUpdated(val, 'valueM1Updated'))} />
             </div>
           </div>
 
@@ -298,10 +288,9 @@ export default class Example extends Component {
             <div>Original Input: {JSON.stringify(this.state.valueM2)}</div>
             <div>Updated Input: {JSON.stringify(this.state.valueM2Updated)}</div>
             <div className="widget-holder">
-                Edit Value
-                <ScheduleIt 
-                  value={this.state.valueM2}
-                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueM2Updated'))} />
+              <ScheduleIt 
+                value={this.state.valueM2}
+                onValueUpdated={(val) => (this.onValueUpdated(val, 'valueM2Updated'))} />
             </div>
           </div>
 
@@ -310,10 +299,9 @@ export default class Example extends Component {
             <div>Original Input: {JSON.stringify(this.state.valueM3)}</div>
             <div>Updated Input: {JSON.stringify(this.state.valueM3Updated)}</div>
             <div className="widget-holder">
-                Edit Value
-                <ScheduleIt 
-                  value={this.state.valueM3}
-                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueM3Updated'))} />
+              <ScheduleIt 
+                value={this.state.valueM3}
+                onValueUpdated={(val) => (this.onValueUpdated(val, 'valueM3Updated'))} />
             </div>
           </div>
 
@@ -322,10 +310,9 @@ export default class Example extends Component {
             <div>Original Input: {JSON.stringify(this.state.valueM4)}</div>
             <div>Updated Input: {JSON.stringify(this.state.valueM4Updated)}</div>
             <div className="widget-holder">
-                Edit Value
-                <ScheduleIt 
-                  value={this.state.valueM4}
-                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueM4Updated'))} />
+              <ScheduleIt 
+                value={this.state.valueM4}
+                onValueUpdated={(val) => (this.onValueUpdated(val, 'valueM4Updated'))} />
             </div>
           </div>
 
@@ -334,10 +321,9 @@ export default class Example extends Component {
             <div>Original Input: {JSON.stringify(this.state.valueM5)}</div>
             <div>Updated Input: {JSON.stringify(this.state.valueM5Updated)}</div>
             <div className="widget-holder">
-                Edit Value
-                <ScheduleIt 
-                  value={this.state.valueM5}
-                  onValueUpdated={(val) => (this.onValueUpdated(val, 'valueM5Updated'))} />
+              <ScheduleIt 
+                value={this.state.valueM5}
+                onValueUpdated={(val) => (this.onValueUpdated(val, 'valueM5Updated'))} />
             </div>
           </div>
 
