@@ -1,5 +1,5 @@
 {
-  "name": "react-schedule-it",
+  "name": "@itheum/react-schedule-it",
   "version": "0.0.1",
   "description": "The react scheduling ui component of the Itheum platform",
   "main": "./dist/main.js",
