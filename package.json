@@ -3,32 +3,10 @@
   "version": "0.0.1",
   "description": "The react scheduling ui component of the Itheum platform",
   "main": "./dist/main.js",
-  "engines": {
-    "node": ">=8.0.0"
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
   },
-  "scripts": {
-    "build": "node ./node_modules/gulp/bin/gulp.js build",
-    "lint": "node ./node_modules/gulp/bin/gulp.js lint",
-    "test": "node ./node_modules/gulp/bin/gulp.js test",
-    "test:watch": "node ./node_modules/gulp/bin/gulp.js test-watch",
-    "prepublish": "npm run build",
-    "example": "webpack-dev-server --open",
-    "build-example": "node ./node_modules/gulp/bin/gulp.js build-example"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/itheum/react-schedule-it.git"
-  },
-  "keywords": [
-    "react",
-    "scheduler"
-  ],
-  "author": "@itheum",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/itheum/react-schedule-it/issues"
-  },
-  "homepage": "https://github.com/itheum/react-schedule-it#readme",
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
@@ -80,5 +58,27 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "scripts": {
+    "build": "node ./node_modules/gulp/bin/gulp.js build",
+    "lint": "node ./node_modules/gulp/bin/gulp.js lint",
+    "test": "node ./node_modules/gulp/bin/gulp.js test",
+    "test:watch": "node ./node_modules/gulp/bin/gulp.js test-watch",
+    "prepublish": "npm run build",
+    "example": "webpack-dev-server --open",
+    "build-example": "node ./node_modules/gulp/bin/gulp.js build-example"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Itheum/react-schedule-it.git"
+  },
+  "keywords": [
+    "scheduler"
+  ],
+  "author": "@newbreedofgeek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Itheum/react-schedule-it/issues"
+  },
+  "homepage": "https://github.com/Itheum/react-schedule-it#readme"
 }

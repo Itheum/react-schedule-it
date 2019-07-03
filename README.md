@@ -1,8 +1,6 @@
 # react schedule-it 
 is the react scheduling ui component of the Itheum platform
 
-## Heavy WIP - Does not work right now!!!
-
 ### concept
 ![react-schedule-it](https://raw.githubusercontent.com/itheum/react-schedule-it/master/concept-eg.png)
 
