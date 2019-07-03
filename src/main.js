@@ -1,50 +1,35 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Promise from 'promise';
+import React from 'react';
 
-export default class ScheduleIt extends Component {
-  constructor(props) {
-    super(props);
+export default class ScheduleIt extends React.Component {
+  state = {
+    mode: 0,
+    core: {
+      via: null,
+      implement: null,
+      am: null,
+      pm: null,
+      minAm: null,
+      minPm: null
+    },
+    working: {
+      via: null,
+      dailyTabGroups: null,
+      dailyDays: [],
+      dailyHoursAM: [],
+      dailyHoursPM: [],
+      minAMCount: '',
+      minPMCount: '',
+      disableDailyDays: false,
+      allowCommit: true
+    }
+  };
 
-    this.state = {
-      core: {
-        via: null,
-        implement: null,
-        am: null,
-        pm: null,
-        minAm: null,
-        minPm: null
-      },
-      working: {
-        via: null,
-        dailyTabGroups: null,
-        dailyDays: [],
-        dailyHoursAM: [],
-        dailyHoursPM: [],
-        minAMCount: '',
-        minPMCount: '',
-        disableDailyDays: false,
-        allowCommit: true
-      }
-    };
-
-    this.renderTabContent = this.renderTabContent.bind(this);
-    this.onSwitchTab = this.onSwitchTab.bind(this);
-    this.onSwitchDailyTabGroups = this.onSwitchDailyTabGroups.bind(this);
-    this.onSwitchDailyDays = this.onSwitchDailyDays.bind(this);
-    this.onSwitchHours = this.onSwitchHours.bind(this);
-    this.updateMin = this.updateMin.bind(this);
-    this.onDone = this.onDone.bind(this);
-    this.coreAsFriendlyText = this.coreAsFriendlyText.bind(this);
-    this.renderMinCount = this.renderMinCount.bind(this);
-  }
-  
   componentDidMount() {
     const {value} = this.props;
     const originalCoreValue = {...value};
     const originalWorkingValue = {...this.state.working};
 
-    //for weekly 'via' will be undefined
+    // for weekly 'via' will be undefined
     if (!originalCoreValue.via) {
       originalWorkingValue.via = 'weekly';
     } else {
@@ -114,61 +99,61 @@ export default class ScheduleIt extends Component {
     });
   }
 
-  renderMinCount(val) {
+  renderMinCount = val => {
     if (!val) {
       return <div>0</div>;
-    } else {
-      return <div>{val}</div>
     }
+
+    return <div>{val}</div>;
   }
-  
-  renderTabContent() {
+
+  renderTabContent = () => {
     return <div>
       <div className="tab-groups">
       {
-        (this.state.working.via !== 'monthly') 
-        ?
-          <div>
-            <div className={this.state.working.dailyTabGroups === 'daily' ? "sel color3" : null} onClick={() => (this.onSwitchDailyTabGroups('daily'))}>Daily</div>
-            <div className={this.state.working.dailyTabGroups === 'weekdays' ? "sel color3" : null} onClick={() => (this.onSwitchDailyTabGroups('weekdays'))}>Weekdays</div>
-            <div className={this.state.working.dailyTabGroups === 'weekends' ? "sel color3" : null} onClick={() => (this.onSwitchDailyTabGroups('weekends'))}>Weekends</div>
-            <div className={this.state.working.dailyTabGroups === 'custom' ? "sel color3" : null} onClick={() => (this.onSwitchDailyTabGroups('custom'))}>Custom Days</div>
-          </div>
-        :
-          <div>
-            <div className={this.state.working.dailyTabGroups === 'monthlyFirstDay' ? "sel color3" : null} onClick={() => (this.onSwitchDailyTabGroups('monthlyFirstDay'))}>First Day</div>
-            <div className={this.state.working.dailyTabGroups === 'monthlyLastDay' ? "sel color3" : null} onClick={() => (this.onSwitchDailyTabGroups('monthlyLastDay'))}>Last Day</div>
-            <div className={this.state.working.dailyTabGroups === 'monthlyLastDaySpecificFirstDays' ? "sel color3" : null} onClick={() => (this.onSwitchDailyTabGroups('monthlyLastDaySpecificFirstDays'))}>Specific First Day/s</div>
-            <div className={this.state.working.dailyTabGroups === 'monthlyLastDaySpecificLastDays' ? "sel color3" : null} onClick={() => (this.onSwitchDailyTabGroups('monthlyLastDaySpecificLastDays'))}>Specific Last Day/s</div>
-          </div>
+        (this.state.working.via !== 'monthly')
+          ? <div>
+              <div className={this.state.working.dailyTabGroups === 'daily' ? 'sel color3' : null} onClick={() => (this.onSwitchDailyTabGroups('daily'))}>Daily</div>
+              <div className={this.state.working.dailyTabGroups === 'weekdays' ? 'sel color3' : null} onClick={() => (this.onSwitchDailyTabGroups('weekdays'))}>Weekdays</div>
+              <div className={this.state.working.dailyTabGroups === 'weekends' ? 'sel color3' : null} onClick={() => (this.onSwitchDailyTabGroups('weekends'))}>Weekends</div>
+              <div className={this.state.working.dailyTabGroups === 'custom' ? 'sel color3' : null} onClick={() => (this.onSwitchDailyTabGroups('custom'))}>Custom Days</div>
+            </div>
+          : <div>
+              <div className={this.state.working.dailyTabGroups === 'monthlyFirstDay' ? 'sel color3' : null} onClick={() => (this.onSwitchDailyTabGroups('monthlyFirstDay'))}>First Day</div>
+              <div className={this.state.working.dailyTabGroups === 'monthlyLastDay' ? 'sel color3' : null} onClick={() => (this.onSwitchDailyTabGroups('monthlyLastDay'))}>Last Day</div>
+              <div className={this.state.working.dailyTabGroups === 'monthlyLastDaySpecificFirstDays' ? 'sel color3' : null} onClick={() => (this.onSwitchDailyTabGroups('monthlyLastDaySpecificFirstDays'))}>
+                Specific First Day/s</div>
+              <div className={this.state.working.dailyTabGroups === 'monthlyLastDaySpecificLastDays' ? 'sel color3' : null} onClick={() => (this.onSwitchDailyTabGroups('monthlyLastDaySpecificLastDays'))}>
+                Specific Last Day/s</div>
+            </div>
       }
       </div>
 
       <div className="days" className={this.state.working.disableDailyDays ? 'days disable' : 'days'}>
-        <div className={this.state.working.dailyDays.indexOf('1') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchDailyDays('1'))}>Mon</div>
-        <div className={this.state.working.dailyDays.indexOf('2') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchDailyDays('2'))}>Tue</div>
-        <div className={this.state.working.dailyDays.indexOf('3') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchDailyDays('3'))}>Wed</div>
-        <div className={this.state.working.dailyDays.indexOf('4') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchDailyDays('4'))}>Thu</div>
-        <div className={this.state.working.dailyDays.indexOf('5') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchDailyDays('5'))}>Fri</div>
-        <div className={this.state.working.dailyDays.indexOf('6') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchDailyDays('6'))}>Sat</div>
-        <div className={this.state.working.dailyDays.indexOf('7') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchDailyDays('7'))}>Sun</div>
+        <div className={this.state.working.dailyDays.indexOf('1') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchDailyDays('1'))}>Mon</div>
+        <div className={this.state.working.dailyDays.indexOf('2') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchDailyDays('2'))}>Tue</div>
+        <div className={this.state.working.dailyDays.indexOf('3') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchDailyDays('3'))}>Wed</div>
+        <div className={this.state.working.dailyDays.indexOf('4') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchDailyDays('4'))}>Thu</div>
+        <div className={this.state.working.dailyDays.indexOf('5') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchDailyDays('5'))}>Fri</div>
+        <div className={this.state.working.dailyDays.indexOf('6') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchDailyDays('6'))}>Sat</div>
+        <div className={this.state.working.dailyDays.indexOf('7') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchDailyDays('7'))}>Sun</div>
       </div>
 
       <div className="am color2">
         <div className="am-hours">
           <div>AM</div>
-          <div className={this.state.working.dailyHoursAM.indexOf('12:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('12:00', 'am'))}>12</div>
-          <div className={this.state.working.dailyHoursAM.indexOf('1:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('1:00', 'am'))}>1</div>
-          <div className={this.state.working.dailyHoursAM.indexOf('2:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('2:00', 'am'))}>2</div>
-          <div className={this.state.working.dailyHoursAM.indexOf('3:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('3:00', 'am'))}>3</div>
-          <div className={this.state.working.dailyHoursAM.indexOf('4:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('4:00', 'am'))}>4</div>
-          <div className={this.state.working.dailyHoursAM.indexOf('5:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('5:00', 'am'))}>5</div>
-          <div className={this.state.working.dailyHoursAM.indexOf('6:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('6:00', 'am'))}>6</div>
-          <div className={this.state.working.dailyHoursAM.indexOf('7:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('7:00', 'am'))}>7</div>
-          <div className={this.state.working.dailyHoursAM.indexOf('8:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('8:00', 'am'))}>8</div>
-          <div className={this.state.working.dailyHoursAM.indexOf('9:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('9:00', 'am'))}>9</div>
-          <div className={this.state.working.dailyHoursAM.indexOf('10:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('10:00', 'am'))}>10</div>
-          <div className={this.state.working.dailyHoursAM.indexOf('11:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('11:00', 'am'))}>11</div>
+          <div className={this.state.working.dailyHoursAM.indexOf('12:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('12:00', 'am'))}>12</div>
+          <div className={this.state.working.dailyHoursAM.indexOf('1:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('1:00', 'am'))}>1</div>
+          <div className={this.state.working.dailyHoursAM.indexOf('2:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('2:00', 'am'))}>2</div>
+          <div className={this.state.working.dailyHoursAM.indexOf('3:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('3:00', 'am'))}>3</div>
+          <div className={this.state.working.dailyHoursAM.indexOf('4:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('4:00', 'am'))}>4</div>
+          <div className={this.state.working.dailyHoursAM.indexOf('5:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('5:00', 'am'))}>5</div>
+          <div className={this.state.working.dailyHoursAM.indexOf('6:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('6:00', 'am'))}>6</div>
+          <div className={this.state.working.dailyHoursAM.indexOf('7:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('7:00', 'am'))}>7</div>
+          <div className={this.state.working.dailyHoursAM.indexOf('8:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('8:00', 'am'))}>8</div>
+          <div className={this.state.working.dailyHoursAM.indexOf('9:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('9:00', 'am'))}>9</div>
+          <div className={this.state.working.dailyHoursAM.indexOf('10:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('10:00', 'am'))}>10</div>
+          <div className={this.state.working.dailyHoursAM.indexOf('11:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('11:00', 'am'))}>11</div>
         </div>
         <div className="am-min">
           <div>Min AM</div>
@@ -181,18 +166,18 @@ export default class ScheduleIt extends Component {
       <div className="pm color2">
         <div className="pm-hours">
           <div>PM</div>
-          <div className={this.state.working.dailyHoursPM.indexOf('12:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('12:00', 'pm'))}>12</div>
-          <div className={this.state.working.dailyHoursPM.indexOf('1:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('1:00', 'pm'))}>1</div>
-          <div className={this.state.working.dailyHoursPM.indexOf('2:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('2:00', 'pm'))}>2</div>
-          <div className={this.state.working.dailyHoursPM.indexOf('3:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('3:00', 'pm'))}>3</div>
-          <div className={this.state.working.dailyHoursPM.indexOf('4:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('4:00', 'pm'))}>4</div>
-          <div className={this.state.working.dailyHoursPM.indexOf('5:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('5:00', 'pm'))}>5</div>
-          <div className={this.state.working.dailyHoursPM.indexOf('6:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('6:00', 'pm'))}>6</div>
-          <div className={this.state.working.dailyHoursPM.indexOf('7:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('7:00', 'pm'))}>7</div>
-          <div className={this.state.working.dailyHoursPM.indexOf('8:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('8:00', 'pm'))}>8</div>
-          <div className={this.state.working.dailyHoursPM.indexOf('9:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('9:00', 'pm'))}>9</div>
-          <div className={this.state.working.dailyHoursPM.indexOf('10:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('10:00', 'pm'))}>10</div>
-          <div className={this.state.working.dailyHoursPM.indexOf('11:00') > -1 ? "sel color3" : null} onClick={() => (this.onSwitchHours('11:00', 'pm'))}>11</div>
+          <div className={this.state.working.dailyHoursPM.indexOf('12:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('12:00', 'pm'))}>12</div>
+          <div className={this.state.working.dailyHoursPM.indexOf('1:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('1:00', 'pm'))}>1</div>
+          <div className={this.state.working.dailyHoursPM.indexOf('2:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('2:00', 'pm'))}>2</div>
+          <div className={this.state.working.dailyHoursPM.indexOf('3:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('3:00', 'pm'))}>3</div>
+          <div className={this.state.working.dailyHoursPM.indexOf('4:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('4:00', 'pm'))}>4</div>
+          <div className={this.state.working.dailyHoursPM.indexOf('5:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('5:00', 'pm'))}>5</div>
+          <div className={this.state.working.dailyHoursPM.indexOf('6:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('6:00', 'pm'))}>6</div>
+          <div className={this.state.working.dailyHoursPM.indexOf('7:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('7:00', 'pm'))}>7</div>
+          <div className={this.state.working.dailyHoursPM.indexOf('8:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('8:00', 'pm'))}>8</div>
+          <div className={this.state.working.dailyHoursPM.indexOf('9:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('9:00', 'pm'))}>9</div>
+          <div className={this.state.working.dailyHoursPM.indexOf('10:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('10:00', 'pm'))}>10</div>
+          <div className={this.state.working.dailyHoursPM.indexOf('11:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('11:00', 'pm'))}>11</div>
         </div>
         <div className="pm-min">
           <div>Min PM</div>
@@ -203,8 +188,8 @@ export default class ScheduleIt extends Component {
       </div>
     </div>;
   }
-  
-  onSwitchTab(implement) {
+
+  onSwitchTab = (implement) => {
     let allowCo = false;
 
     if (!this.props.supportedOptions || this.props.supportedOptions.indexOf(implement) > -1) {
@@ -219,8 +204,8 @@ export default class ScheduleIt extends Component {
       }
     });
   }
-  
-  onSwitchDailyTabGroups(dailyTabGroup) {
+
+  onSwitchDailyTabGroups = (dailyTabGroup) => {
     let dailyTabGroupsNew;
     let dailyDaysNew;
     let disableDailyDaysNew;
@@ -272,7 +257,10 @@ export default class ScheduleIt extends Component {
         dailyTabGroupsNew = 'monthlyLastDaySpecificLastDays';
         dailyDaysNew = [];
         disableDailyDaysNew = false;
-        break;       
+        break;
+
+      default:
+        break;
     }
 
     this.setState({
@@ -280,12 +268,12 @@ export default class ScheduleIt extends Component {
         ...this.state.working,
         dailyTabGroups: dailyTabGroupsNew,
         dailyDays: dailyDaysNew,
-        disableDailyDays: disableDailyDaysNew,
+        disableDailyDays: disableDailyDaysNew
       }
     });
   }
-  
-  onSwitchDailyDays(day) {
+
+  onSwitchDailyDays = (day) => {
     const dailyDaysNew = [...this.state.working.dailyDays];
 
     if (dailyDaysNew.indexOf(day) === -1) {
@@ -306,10 +294,10 @@ export default class ScheduleIt extends Component {
       }
     });
   }
-  
-  onSwitchHours(hour, block) {
+
+  onSwitchHours = (hour, block) => {
     const dailyHoursNew = (block === 'am') ? [...this.state.working.dailyHoursAM] : [...this.state.working.dailyHoursPM];
-    const workingNew = {...this.state.working,};
+    const workingNew = {...this.state.working};
 
     if (dailyHoursNew.indexOf(hour) === -1) {
       dailyHoursNew.push(hour);
@@ -317,7 +305,7 @@ export default class ScheduleIt extends Component {
       dailyHoursNew.splice(dailyHoursNew.indexOf(hour), 1);
     }
 
-    dailyHoursNew.sort((a,b) => parseInt(a.replace(/:/, '')) - parseInt(b.replace(/:/, '')));
+    dailyHoursNew.sort((a,b) => parseInt(a.replace(/:/, ''), 10) - parseInt(b.replace(/:/, ''), 10));
 
     if (block === 'am') {
       // reset min counts as well if needed
@@ -333,14 +321,14 @@ export default class ScheduleIt extends Component {
       }
 
       workingNew.dailyHoursPM = dailyHoursNew;
-    } 
+    }
 
     this.setState({
       working: workingNew
     });
   }
-  
-  updateMin(direction, block) {
+
+  updateMin = (direction, block) => {
     let minCountNew = (block === 'am') ? this.state.working.minAMCount : this.state.working.minPMCount;
 
     if (direction) {
@@ -355,7 +343,7 @@ export default class ScheduleIt extends Component {
 
     if (block === 'am') {
       if (minCountNew > this.state.working.dailyHoursAM.length) {
-        minCountNew = this.state.working.dailyHoursAM.length
+        minCountNew = this.state.working.dailyHoursAM.length;
       }
 
       this.setState({
@@ -366,7 +354,7 @@ export default class ScheduleIt extends Component {
       });
     } else {
       if (minCountNew > this.state.working.dailyHoursPM.length) {
-        minCountNew = this.state.working.dailyHoursPM.length
+        minCountNew = this.state.working.dailyHoursPM.length;
       }
 
       this.setState({
@@ -375,10 +363,16 @@ export default class ScheduleIt extends Component {
           minPMCount: minCountNew
         }
       });
-    } 
+    }
   }
-  
-  onDone() {
+
+  onEdit = (close = 1) => {
+    this.setState({
+      mode: close
+    });
+  }
+
+  onDone = () => {
     // update implement
     let toStringFormat = this.state.working.dailyDays.join('-');
 
@@ -388,9 +382,9 @@ export default class ScheduleIt extends Component {
 
     // monthly ;
     if (this.state.working.dailyTabGroups === 'monthlyLastDaySpecificFirstDays') {
-      toStringFormat = 'first:' + toStringFormat;
+      toStringFormat = `first: ${toStringFormat}`;
     } else if (this.state.working.dailyTabGroups === 'monthlyLastDaySpecificLastDays') {
-      toStringFormat = 'last:' + toStringFormat;
+      toStringFormat = `last: ${toStringFormat}`;
     } else if (this.state.working.dailyTabGroups === 'monthlyFirstDay') {
       toStringFormat = 'first';
     } else if (this.state.working.dailyTabGroups === 'monthlyLastDay') {
@@ -406,13 +400,14 @@ export default class ScheduleIt extends Component {
     newCore.minPm = this.state.working.minPMCount; // update minPm
 
     this.setState({
-      core:newCore 
+      mode: 0,
+      core: newCore
     }, () => {
       this.props.onValueUpdated(newCore);
     });
   }
-  
-  coreAsFriendlyText() {
+
+  coreAsFriendlyText = () => {
     if (!this.state.core.implement) {
       return '';
     }
@@ -425,8 +420,10 @@ export default class ScheduleIt extends Component {
     } else if (this.state.core.via === 'monthly') {
       str += 'Monthly ';
     }
-    
-    switch (this.state.core.implement) {
+
+    const imlSrt = this.state.core.implement;
+
+    switch (imlSrt) {
       case 'daily':
       case '1-2-3-4-5-6-7':
         str += 'Daily ';
@@ -441,8 +438,6 @@ export default class ScheduleIt extends Component {
         break;
 
       default:
-        const imlSrt = this.state.core.implement;
-
         str += 'on ';
 
         // S: monthly
@@ -458,13 +453,13 @@ export default class ScheduleIt extends Component {
           str += 'the very first day ';
         } else if (imlSrt.indexOf('last') > -1) {
           str += 'the very last day ';
-        } 
+        }
         // E: monthly
-        
+
         if (imlSrt.indexOf('1') > -1) {
           str += 'Mon ';
         }
-       
+
         if (imlSrt.indexOf('2') > -1) {
           str += 'Tue ';
         }
@@ -498,7 +493,7 @@ export default class ScheduleIt extends Component {
     }
 
     if (this.state.core.am.length > 0) {
-      str += `AM ${this.state.core.am.join(', ') }  `;
+      str += `AM ${this.state.core.am.join(', ')} `;
 
       if (this.state.core.minAm > 0) {
         str += `(min ${this.state.core.minAm}) `;
@@ -510,7 +505,7 @@ export default class ScheduleIt extends Component {
         str += 'and ';
       }
 
-      str += `PM ${this.state.core.pm.join(', ') } `;
+      str += `PM ${this.state.core.pm.join(', ')} `;
 
       if (this.state.core.minPm > 0) {
         str += `(min ${this.state.core.minPm}) `;
@@ -522,23 +517,29 @@ export default class ScheduleIt extends Component {
 
   render() {
     return <div className="schedule-it color1">
-      <div className="schedule-tabs color2">
-        <div className={this.state.working.via === 'weekly' ? "sel color3" : null} onClick={() => (this.onSwitchTab('weekly'))}>Weekly</div>
-        <div className={this.state.working.via === 'forthnightly' ? "sel color3" : null}  onClick={() => (this.onSwitchTab('forthnightly'))}>Forthnightly</div>
-        <div className={this.state.working.via=== 'monthly' ? "sel color3" : null}  onClick={() => (this.onSwitchTab('monthly'))}>Monthly</div>
-      </div>
+      {
+        (this.state.mode === 0)
+          ? <div className="label">
+              {this.coreAsFriendlyText()}
+              <div className='actionBtn' onClick={this.onEdit}>Edit</div>
+            </div>
+          : <div className="tool">
+              <div className="schedule-tabs color2">
+                <div className={this.state.working.via === 'weekly' ? 'sel color3' : null} onClick={() => (this.onSwitchTab('weekly'))}>Weekly</div>
+                <div className={this.state.working.via === 'forthnightly' ? 'sel color3' : null} onClick={() => (this.onSwitchTab('forthnightly'))}>Forthnightly</div>
+                <div className={this.state.working.via === 'monthly' ? 'sel color3' : null} onClick={() => (this.onSwitchTab('monthly'))}>Monthly</div>
+              </div>
 
-      <div className="schedule-body color4">
-        {this.renderTabContent()}
-      </div>
+              <div className="schedule-body color4">
+                {this.renderTabContent()}
+              </div>
 
-      <div className="footer">
-        {this.state.working.allowCommit && <div onClick={this.onDone}>Done</div>}
-      </div>
-
-      <div className="debug">
-        {this.coreAsFriendlyText()}
-      </div>
+              <div className="footer">
+                <div className='actionBtn secondary' onClick={this.onEdit.bind(this, 0)}>Close</div>
+                {this.state.working.allowCommit && <div className='actionBtn' onClick={this.onDone}>Done</div>}
+              </div>
+            </div>
+      }
     </div>;
   }
 }

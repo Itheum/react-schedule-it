@@ -4,11 +4,19 @@ is the react scheduling ui component of the Itheum platform
 ## Heavy WIP - Does not work right now!!!
 
 ### concept
-
 ![react-schedule-it](https://raw.githubusercontent.com/itheum/react-schedule-it/master/concept-eg.png)
 
-//daily, [1-2-3-4-5-6-7 (ISO Day of Week - 1 is Monday)] e.g for thursday and sunday it will be 4-7
-//E	1..7	ISO day of week (for mon and thu it will be 4-7)
+
+### dev
+- all node source is in src/main.js
+- you need to install dependencies first `npm install`
+- make any changes and run `npm run build` to transpile the jsx into `dist`
+- the transpilation is run as an auto pre-publish task so it should usually be up to date when consumed via npm
+- `npm run build-example` builds and packs the example app into the 'docs' folder so it can be accessed via ghpages
+
+### usage of ISO Day of Week
+the `implement` in the data model can use `ISO day of week` to describe days . e.g. 1-2-3-4-5-6-7 (ISO Day of Week - where 1 is Monday)] e.g for thursday and sunday it will be 4-7
+this works well with libraries like moment.js
 
 ## Data Model
 - implement: Type - String 
@@ -207,13 +215,3 @@ npm install --save react-schedule-it
 import ScheduleIt from "react-schedule-it";
 ```
 - define the list of all the components* you want to step through. The `name` indicates the title of the UI step and component is what loads.
-
-
-   componentDidUpdate(prevProps, prevState) {
-    console.log('componentDidUpdate');
-
-    // console.log(prevState);
-    // console.log(this.state);
-
-    // this.props.onValueUpdated(this.state);
-  }
