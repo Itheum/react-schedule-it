@@ -2,7 +2,7 @@
 is the react scheduling ui component of the Itheum platform
 
 ### concept
-![react-schedule-it](https://raw.githubusercontent.com/itheum/react-schedule-it/master/concept-eg.png)
+![react-schedule-it](https://raw.githubusercontent.com/itheum/react-schedule-it/master/concept-eg-new.png)
 
 
 ### dev

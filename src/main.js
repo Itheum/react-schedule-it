@@ -3,6 +3,7 @@ import React from 'react';
 export default class ScheduleIt extends React.Component {
   state = {
     mode: 0,
+    commitedWorkingState: {},
     core: {
       via: null,
       implement: null,
@@ -86,8 +87,8 @@ export default class ScheduleIt extends React.Component {
     // E: other monthly implement rules
 
     // track the hours always
-    originalWorkingValue.dailyHoursAM = originalCoreValue.am;
-    originalWorkingValue.dailyHoursPM = originalCoreValue.pm;
+    originalWorkingValue.dailyHoursAM = (originalCoreValue.am) ? originalCoreValue.am : [];
+    originalWorkingValue.dailyHoursPM = (originalCoreValue.pm) ? originalCoreValue.pm : [];
 
     // track min am and pm
     originalWorkingValue.minAMCount = originalCoreValue.minAm;
@@ -95,7 +96,8 @@ export default class ScheduleIt extends React.Component {
 
     this.setState({
       core: originalCoreValue,
-      working: originalWorkingValue
+      working: originalWorkingValue,
+      commitedWorkingState: {...originalWorkingValue}
     });
   }
 
@@ -155,12 +157,12 @@ export default class ScheduleIt extends React.Component {
           <div className={this.state.working.dailyHoursAM.indexOf('10:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('10:00', 'am'))}>10</div>
           <div className={this.state.working.dailyHoursAM.indexOf('11:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('11:00', 'am'))}>11</div>
         </div>
-        <div className="am-min">
+        {!this.props.enforeTimeMins && <div className="am-min">
           <div>Min AM</div>
           <div className="am-down" onClick={() => (this.updateMin(0, 'am'))}>[-]</div>
           <div>{this.renderMinCount(this.state.working.minAMCount)}</div>
           <div className="am-up" onClick={() => (this.updateMin(1, 'am'))}>[+]</div>
-        </div>
+        </div>}
       </div>
 
       <div className="pm color2">
@@ -179,17 +181,22 @@ export default class ScheduleIt extends React.Component {
           <div className={this.state.working.dailyHoursPM.indexOf('10:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('10:00', 'pm'))}>10</div>
           <div className={this.state.working.dailyHoursPM.indexOf('11:00') > -1 ? 'sel color3' : null} onClick={() => (this.onSwitchHours('11:00', 'pm'))}>11</div>
         </div>
-        <div className="pm-min">
+        {!this.props.enforeTimeMins && <div className="pm-min">
           <div>Min PM</div>
           <div className="pm-down" onClick={() => (this.updateMin(0, 'pm'))}>[-]</div>
           <div>{this.renderMinCount(this.state.working.minPMCount)}</div>
           <div className="pm-up" onClick={() => (this.updateMin(1, 'pm'))}>[+]</div>
-        </div>
+        </div>}
       </div>
     </div>;
   }
 
-  onSwitchTab = (implement) => {
+  onSwitchTab = implement => {
+    if (this.props.enforeOnlyTimeUpdate) {
+      // not allows to update, only time update allowed
+      return;
+    }
+
     let allowCo = false;
 
     if (!this.props.supportedOptions || this.props.supportedOptions.indexOf(implement) > -1) {
@@ -205,7 +212,12 @@ export default class ScheduleIt extends React.Component {
     });
   }
 
-  onSwitchDailyTabGroups = (dailyTabGroup) => {
+  onSwitchDailyTabGroups = dailyTabGroup => {
+    if (this.props.enforeOnlyTimeUpdate) {
+      // not allows to update, only time update allowed
+      return;
+    }
+
     let dailyTabGroupsNew;
     let dailyDaysNew;
     let disableDailyDaysNew;
@@ -273,7 +285,12 @@ export default class ScheduleIt extends React.Component {
     });
   }
 
-  onSwitchDailyDays = (day) => {
+  onSwitchDailyDays = day => {
+    if (this.props.enforeOnlyTimeUpdate) {
+      // not allows to update, only time update allowed
+      return;
+    }
+
     const dailyDaysNew = [...this.state.working.dailyDays];
 
     if (dailyDaysNew.indexOf(day) === -1) {
@@ -301,7 +318,26 @@ export default class ScheduleIt extends React.Component {
 
     if (dailyHoursNew.indexOf(hour) === -1) {
       dailyHoursNew.push(hour);
+
+      // remove 0 paddings
+      if (dailyHoursNew.indexOf('0') > -1) {
+        dailyHoursNew.splice(dailyHoursNew.indexOf('0') , 1);
+      }
     } else {
+      // if we are asked to enforeTimeMins then prevent removing values withount honouring mins config
+      if (this.props.enforeTimeMins) {
+        if (block === 'am') { // enforce am mins
+          if (dailyHoursNew.length === this.state.working.minAMCount) {
+            return;
+          }
+        } else { // enforce pm mins
+          if (dailyHoursNew.length === this.state.working.minPMCount) {
+            return;
+          }
+        }
+      }
+
+      // or we remove existing item
       dailyHoursNew.splice(dailyHoursNew.indexOf(hour), 1);
     }
 
@@ -366,10 +402,16 @@ export default class ScheduleIt extends React.Component {
     }
   }
 
-  onEdit = (close = 1) => {
-    this.setState({
+  onEdit = close => {
+    const toUpdate = {
       mode: close
-    });
+    };
+
+    if (close === 0) { // they are closing the editor so reset the working to mount working state
+      toUpdate.working = {...this.state.commitedWorkingState};
+    }
+
+    this.setState(toUpdate);
   }
 
   onDone = () => {
@@ -401,7 +443,8 @@ export default class ScheduleIt extends React.Component {
 
     this.setState({
       mode: 0,
-      core: newCore
+      core: newCore,
+      commitedWorkingState: {...this.state.working}
     }, () => {
       this.props.onValueUpdated(newCore);
     });
@@ -488,11 +531,11 @@ export default class ScheduleIt extends React.Component {
     }
 
     // am/pm to string and mins
-    if (this.state.core.am.length > 0 || this.state.core.pm.length > 0) {
+    if ((this.state.core.am && this.state.core.am.length > 0 && this.state.core.am[0] !== '0') || (this.state.core.pm && this.state.core.pm.length > 0 && this.state.core.pm[0] !== '0')) {
       str += 'at ';
     }
 
-    if (this.state.core.am.length > 0) {
+    if (this.state.core.am && this.state.core.am.length > 0 && this.state.core.am[0] !== '0') {
       str += `AM ${this.state.core.am.join(', ')} `;
 
       if (this.state.core.minAm > 0) {
@@ -500,7 +543,7 @@ export default class ScheduleIt extends React.Component {
       }
     }
 
-    if (this.state.core.pm.length > 0) {
+    if (this.state.core.pm && this.state.core.pm.length > 0 && this.state.core.pm[0] !== '0') {
       if (str.indexOf('AM') > -1) {
         str += 'and ';
       }
@@ -517,29 +560,27 @@ export default class ScheduleIt extends React.Component {
 
   render() {
     return <div className="schedule-it color1">
-      {
-        (this.state.mode === 0)
-          ? <div className="label">
-              {this.coreAsFriendlyText()}
-              <div className='actionBtn' onClick={this.onEdit}>Edit</div>
-            </div>
-          : <div className="tool">
-              <div className="schedule-tabs color2">
-                <div className={this.state.working.via === 'weekly' ? 'sel color3' : null} onClick={() => (this.onSwitchTab('weekly'))}>Weekly</div>
-                <div className={this.state.working.via === 'forthnightly' ? 'sel color3' : null} onClick={() => (this.onSwitchTab('forthnightly'))}>Forthnightly</div>
-                <div className={this.state.working.via === 'monthly' ? 'sel color3' : null} onClick={() => (this.onSwitchTab('monthly'))}>Monthly</div>
-              </div>
+      {(this.state.mode === 0 || this.props.alwaysLabel) && <div className="label">
+        {this.coreAsFriendlyText()}
+        {this.state.mode === 0 && <div className='actionBtn' onClick={this.onEdit.bind(this, 1)}>Edit</div>}
+      </div>}
 
-              <div className="schedule-body color4">
-                {this.renderTabContent()}
-              </div>
+      {this.state.mode === 1 && <div className="tool">
+          <div className="schedule-tabs color2">
+            <div className={this.state.working.via === 'weekly' ? 'sel color3' : null} onClick={() => (this.onSwitchTab('weekly'))}>Weekly</div>
+            <div className={this.state.working.via === 'forthnightly' ? 'sel color3' : null} onClick={() => (this.onSwitchTab('forthnightly'))}>Forthnightly</div>
+            <div className={this.state.working.via === 'monthly' ? 'sel color3' : null} onClick={() => (this.onSwitchTab('monthly'))}>Monthly</div>
+          </div>
 
-              <div className="footer">
-                <div className='actionBtn secondary' onClick={this.onEdit.bind(this, 0)}>Close</div>
-                {this.state.working.allowCommit && <div className='actionBtn' onClick={this.onDone}>Done</div>}
-              </div>
-            </div>
-      }
+          <div className="schedule-body color4">
+            {this.renderTabContent()}
+          </div>
+
+          <div className="footer">
+            <div className='actionBtn secondary' onClick={this.onEdit.bind(this, 0)}>Close</div>
+            {this.state.working.allowCommit && <div className='actionBtn' onClick={this.onDone}>Done</div>}
+          </div>
+        </div>}
     </div>;
   }
 }

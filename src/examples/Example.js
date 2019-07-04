@@ -58,6 +58,15 @@ export default class Example extends Component {
       },
       valueW6Updated: {},
 
+      valueW7: {
+        "implement":"daily",
+        "am":["7:00"],
+        "pm":["8:00"],
+        "minAm":1,
+        "minPm":1
+      },
+      valueW7Updated: {},
+
       valueF1: {
         "via": "forthnightly",
         "implement": "4-7",
@@ -226,7 +235,20 @@ export default class Example extends Component {
                 value={this.state.valueW6}
                 onValueUpdated={(val) => (this.onValueUpdated(val, 'valueW6Updated'))} />
             </div>
-          </div>          
+          </div> 
+
+          <div className='an-eg'>
+            <div>Example 7</div>
+            <div>Original Input: {JSON.stringify(this.state.valueW7)}</div>
+            <div>Updated Input: {JSON.stringify(this.state.valueW7Updated)}</div>
+            <div className="widget-holder">
+              <ScheduleIt 
+                value={this.state.valueW7}
+                onValueUpdated={(val) => (this.onValueUpdated(val, 'valueW7Updated'))} />
+            </div>
+          </div> 
+
+
         </div>
       
         <div>
