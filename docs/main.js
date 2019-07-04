@@ -59,6 +59,7 @@ function (_React$Component) {
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "state", {
       mode: 0,
+      commitedWorkingState: {},
       core: {
         via: null,
         implement: null,
@@ -232,7 +233,7 @@ function (_React$Component) {
         onClick: function onClick() {
           return _this.onSwitchHours('11:00', 'am');
         }
-      }, "11")), _react.default.createElement("div", {
+      }, "11")), !_this.props.enforeTimeMins && _react.default.createElement("div", {
         className: "am-min"
       }, _react.default.createElement("div", null, "Min AM"), _react.default.createElement("div", {
         className: "am-down",
@@ -308,7 +309,7 @@ function (_React$Component) {
         onClick: function onClick() {
           return _this.onSwitchHours('11:00', 'pm');
         }
-      }, "11")), _react.default.createElement("div", {
+      }, "11")), !_this.props.enforeTimeMins && _react.default.createElement("div", {
         className: "pm-min"
       }, _react.default.createElement("div", null, "Min PM"), _react.default.createElement("div", {
         className: "pm-down",
@@ -324,6 +325,11 @@ function (_React$Component) {
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onSwitchTab", function (implement) {
+      if (_this.props.enforeOnlyTimeUpdate) {
+        // not allows to update, only time update allowed
+        return;
+      }
+
       var allowCo = false;
 
       if (!_this.props.supportedOptions || _this.props.supportedOptions.indexOf(implement) > -1) {
@@ -339,6 +345,11 @@ function (_React$Component) {
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onSwitchDailyTabGroups", function (dailyTabGroup) {
+      if (_this.props.enforeOnlyTimeUpdate) {
+        // not allows to update, only time update allowed
+        return;
+      }
+
       var dailyTabGroupsNew;
       var dailyDaysNew;
       var disableDailyDaysNew;
@@ -411,6 +422,11 @@ function (_React$Component) {
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onSwitchDailyDays", function (day) {
+      if (_this.props.enforeOnlyTimeUpdate) {
+        // not allows to update, only time update allowed
+        return;
+      }
+
       var dailyDaysNew = _toConsumableArray(_this.state.working.dailyDays);
 
       if (dailyDaysNew.indexOf(day) === -1) {
@@ -437,8 +453,28 @@ function (_React$Component) {
       var workingNew = _objectSpread({}, _this.state.working);
 
       if (dailyHoursNew.indexOf(hour) === -1) {
-        dailyHoursNew.push(hour);
+        dailyHoursNew.push(hour); // remove 0 paddings
+
+        if (dailyHoursNew.indexOf('0') > -1) {
+          dailyHoursNew.splice(dailyHoursNew.indexOf('0'), 1);
+        }
       } else {
+        // if we are asked to enforeTimeMins then prevent removing values withount honouring mins config
+        if (_this.props.enforeTimeMins) {
+          if (block === 'am') {
+            // enforce am mins
+            if (dailyHoursNew.length === _this.state.working.minAMCount) {
+              return;
+            }
+          } else {
+            // enforce pm mins
+            if (dailyHoursNew.length === _this.state.working.minPMCount) {
+              return;
+            }
+          }
+        } // or we remove existing item
+
+
         dailyHoursNew.splice(dailyHoursNew.indexOf(hour), 1);
       }
 
@@ -503,12 +539,17 @@ function (_React$Component) {
       }
     });
 
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onEdit", function () {
-      var close = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-
-      _this.setState({
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onEdit", function (close) {
+      var toUpdate = {
         mode: close
-      });
+      };
+
+      if (close === 0) {
+        // they are closing the editor so reset the working to mount working state
+        toUpdate.working = _objectSpread({}, _this.state.commitedWorkingState);
+      }
+
+      _this.setState(toUpdate);
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onDone", function () {
@@ -544,7 +585,8 @@ function (_React$Component) {
 
       _this.setState({
         mode: 0,
-        core: newCore
+        core: newCore,
+        commitedWorkingState: _objectSpread({}, _this.state.working)
       }, function () {
         _this.props.onValueUpdated(newCore);
       });
@@ -629,11 +671,11 @@ function (_React$Component) {
       } // am/pm to string and mins
 
 
-      if (_this.state.core.am.length > 0 || _this.state.core.pm.length > 0) {
+      if (_this.state.core.am && _this.state.core.am.length > 0 && _this.state.core.am[0] !== '0' || _this.state.core.pm && _this.state.core.pm.length > 0 && _this.state.core.pm[0] !== '0') {
         str += 'at ';
       }
 
-      if (_this.state.core.am.length > 0) {
+      if (_this.state.core.am && _this.state.core.am.length > 0 && _this.state.core.am[0] !== '0') {
         str += "AM ".concat(_this.state.core.am.join(', '), " ");
 
         if (_this.state.core.minAm > 0) {
@@ -641,7 +683,7 @@ function (_React$Component) {
         }
       }
 
-      if (_this.state.core.pm.length > 0) {
+      if (_this.state.core.pm && _this.state.core.pm.length > 0 && _this.state.core.pm[0] !== '0') {
         if (str.indexOf('AM') > -1) {
           str += 'and ';
         }
@@ -727,14 +769,15 @@ function (_React$Component) {
       // track the hours always
 
 
-      originalWorkingValue.dailyHoursAM = originalCoreValue.am;
-      originalWorkingValue.dailyHoursPM = originalCoreValue.pm; // track min am and pm
+      originalWorkingValue.dailyHoursAM = originalCoreValue.am ? originalCoreValue.am : [];
+      originalWorkingValue.dailyHoursPM = originalCoreValue.pm ? originalCoreValue.pm : []; // track min am and pm
 
       originalWorkingValue.minAMCount = originalCoreValue.minAm;
       originalWorkingValue.minPMCount = originalCoreValue.minPm;
       this.setState({
         core: originalCoreValue,
-        working: originalWorkingValue
+        working: originalWorkingValue,
+        commitedWorkingState: _objectSpread({}, originalWorkingValue)
       });
     }
   }, {
@@ -744,12 +787,12 @@ function (_React$Component) {
 
       return _react.default.createElement("div", {
         className: "schedule-it color1"
-      }, this.state.mode === 0 ? _react.default.createElement("div", {
+      }, (this.state.mode === 0 || this.props.alwaysLabel) && _react.default.createElement("div", {
         className: "label"
-      }, this.coreAsFriendlyText(), _react.default.createElement("div", {
+      }, this.coreAsFriendlyText(), this.state.mode === 0 && _react.default.createElement("div", {
         className: "actionBtn",
-        onClick: this.onEdit
-      }, "Edit")) : _react.default.createElement("div", {
+        onClick: this.onEdit.bind(this, 1)
+      }, "Edit")), this.state.mode === 1 && _react.default.createElement("div", {
         className: "tool"
       }, _react.default.createElement("div", {
         className: "schedule-tabs color2"
